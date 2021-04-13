@@ -24,6 +24,6 @@ public class BFS {
 	   
    }
    public void run_bfs() {
-	   
+	   cost = 32;
    }
 }

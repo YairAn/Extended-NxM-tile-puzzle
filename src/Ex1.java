@@ -52,6 +52,7 @@ public class Ex1 {
 		case "BFS":
 			BFS b = new BFS(initial,goaln);
 			b.run_bfs();
+			System.out.println(b.cost);
 			break;
 		case "DFID":
 			System.out.println("three");
@@ -71,8 +72,8 @@ public class Ex1 {
 		
 		
 		
-//	System.out.println(Support.is_goal(initial,goaln));
-//		System.out.println(Support.h(initial,goaln,num_empty_tiles));
+	System.out.println(Support.is_goal(initial,goaln));
+		System.out.println(Support.h(initial,goaln,num_empty_tiles));
 //				
 //				for(int i = 0 ; i < rows_num ; i++) {
 //					for(int j = 0 ; j < colls_num ; j++) {
