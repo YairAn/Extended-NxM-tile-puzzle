@@ -14,11 +14,11 @@ public class BFS {
    ArrayList<String> path = new ArrayList<>();
    int num_node_generated = 0;
    double time  = 0;
-   int cost =0;
-   
+   int cost =0;//kkk
+   //new coment
    
    public BFS(Node state,Node goal1) {
-	   initial = state;
+	   initial = state;//s
 	   goal = goal1;
 	   q.add(initial);
 	   
