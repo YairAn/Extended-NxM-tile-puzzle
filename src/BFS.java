@@ -13,15 +13,14 @@ public class BFS {
 	Hashtable<String, Node> hash_open = new Hashtable<>();
 	ArrayList<String> path = new ArrayList<>();
 	int num_node_generated = 0;
-	double time  = 0;
-	int cost =0;
+	double time  = 0.0;
+	int cost = 0;
 
 	public BFS(Node state,Node goal1) {
 		initial = state;
 		goal = goal1;
-		q.add(initial);
-
 	}
+	
 	public void run_bfs() {
 		long start = System.currentTimeMillis();
 		q.add(initial);
@@ -36,19 +35,19 @@ public class BFS {
 						while(g.parent != null) {
 							path.add(0,g.direction);
 							cost += g.cost;
+							g = g.parent;
 						}
 						long end = System.currentTimeMillis() ;
-						time = (end - start) / 1000;
+						time = (double)(end - start) / 1000;
+						op.clear();
 						return ;
 					}
 					q.add(g); 
 				}
 			}
 		}
-
 		long end = System.currentTimeMillis() ;
-		time = (end - start) / 1000;
+		time = (double)(end - start) / 1000;
 		return;
-
 	}
 }

@@ -54,7 +54,10 @@ public class Ex1 {
 		case "BFS":
 			BFS b = new BFS(initial,goaln);
 			b.run_bfs();
+			System.out.println(b.path);
+			System.out.println(b.num_node_generated);
 			System.out.println(b.cost);
+			System.out.println(b.time);
 			break;
 		case "DFID":
 			System.out.println("three");

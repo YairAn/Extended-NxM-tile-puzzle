@@ -20,6 +20,13 @@ public class Node {
 		direction = d;
 		
 	}
+	
+	public Node(Node other) {
+		this.cost = other.cost;
+		this.direction = other.direction;
+		this.parent = other.parent;
+		this.state = other.state;
+	}
 	public String to_string(){
 		String str = "";
 		for(int i = 0 ; i < state.length ; i++) {
