@@ -9,16 +9,15 @@ public class BFS {
    Node initial;
    Node goal;
    Queue<Node> q = new LinkedList<>();
-   Hashtable<Integer, Node> hashC = new Hashtable<>();
-   Hashtable<Integer, Node> hashO = new Hashtable<>();
+   Hashtable<Integer, Node> hash_close = new Hashtable<>();
+   Hashtable<Integer, Node> hash_open = new Hashtable<>();
    ArrayList<String> path = new ArrayList<>();
    int num_node_generated = 0;
    double time  = 0;
-   int cost =0;//kkk
-   //new coment
+   int cost =0;
    
    public BFS(Node state,Node goal1) {
-	   initial = state;//s
+	   initial = state;
 	   goal = goal1;
 	   q.add(initial);
 	   

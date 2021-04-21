@@ -1,4 +1,6 @@
 import java.nio.file.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import javax.xml.soap.Detail;
 import javax.xml.stream.events.StartDocument;;
@@ -16,8 +18,8 @@ public class Ex1 {
 			s = s + scanner.nextLine();
 		}
 		scanner.close();
-		
-	    int num_empty_tiles = 0;
+
+		int num_empty_tiles = 0;
 		String[] details = s.split("\n");
 		String algo_name = details[0];
 		boolean with_time = false;
@@ -44,15 +46,15 @@ public class Ex1 {
 				goal[i-(4 + rows_num + 1)][j] = tmp[j];
 			}
 		}
-        Node initial = new Node(start);
-        Node goaln = new Node(goal);
+		Node initial = new Node(start);
+		Node goaln = new Node(goal);
 		//choose witch algorithm to activate		
 		switch(algo_name)
 		{          
 		case "BFS":
 			BFS b = new BFS(initial,goaln);
 			b.run_bfs();
-			System.out.println(b.cost);
+		//	System.out.println(b.cost);
 			break;
 		case "DFID":
 			System.out.println("three");
@@ -69,26 +71,36 @@ public class Ex1 {
 		default:
 			System.out.println("no match");
 		}
-		
-		
-		
-	System.out.println(Support.is_goal(initial,goaln));
-		System.out.println(Support.h(initial,goaln,num_empty_tiles));
-//				
-//				for(int i = 0 ; i < rows_num ; i++) {
-//					for(int j = 0 ; j < colls_num ; j++) {
-//						System.out.print(start[i][j] + " ");
-//					}
-//					System.out.println();
-//				}
-//				System.out.println();
-//		
-//				for(int i = 0 ; i < rows_num ; i++) {
-//					for(int j = 0 ; j < colls_num ; j++) {
-//						System.out.print(goal[i][j] + " ");
-//					}
-//					System.out.println();
-//				}
+
+
+
+	//	System.out.println(Support.is_state_equals(initial,goaln));
+	//	System.out.println(Support.h(initial,goaln,num_empty_tiles));
+		ArrayList<Node> operators = new ArrayList<>();
+		operators = Support.make_operators(initial);
+		String[][] mmm;
+		for (int k = 0; k < operators.size(); k++) {
+			operators.get(k).to_string();;
+			System.out.println();
+			System.out.println();
+		}
+
+
+		//				
+		//				for(int i = 0 ; i < rows_num ; i++) {
+		//					for(int j = 0 ; j < colls_num ; j++) {
+		//						System.out.print(start[i][j] + " ");
+		//					}
+		//					System.out.println();
+		//				}
+		//				System.out.println();
+		//		
+		//				for(int i = 0 ; i < rows_num ; i++) {
+		//					for(int j = 0 ; j < colls_num ; j++) {
+		//						System.out.print(goal[i][j] + " ");
+		//					}
+		//					System.out.println();
+		//				}
 
 
 	}
