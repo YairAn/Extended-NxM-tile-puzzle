@@ -20,13 +20,27 @@ public class Node {
 		direction = d;
 		
 	}
-	public void to_string(){
+	public String to_string(){
+		String str = "";
 		for(int i = 0 ; i < state.length ; i++) {
 			for(int j = 0 ; j < state[0].length ; j++) {
-				System.out.print(state[i][j] + " ");
+				str += state[i][j] + " ";
 			}
-			System.out.println();
-
+            str += "\n";
 		}
+		return str;
+	}
+	
+	public boolean equals(Node goal) {
+		boolean b  = true;
+		for(int i = 0 ; i < this.state.length ; i++) {
+			for(int j = 0 ; j < this.state[0].length ; j++) {
+				if(!(this.state[i][j].equals(goal.state[i][j]))) {
+					b = false;
+					return b;
+				}
+			}		
+		}
+		return b;
 	}
 }

@@ -54,7 +54,7 @@ public class Ex1 {
 		case "BFS":
 			BFS b = new BFS(initial,goaln);
 			b.run_bfs();
-		//	System.out.println(b.cost);
+			System.out.println(b.cost);
 			break;
 		case "DFID":
 			System.out.println("three");
@@ -73,35 +73,38 @@ public class Ex1 {
 		}
 
 
-
-	//	System.out.println(Support.is_state_equals(initial,goaln));
-	//	System.out.println(Support.h(initial,goaln,num_empty_tiles));
+		
+		
+		
+		
+		
+/*
+		System.out.println(Support.is_state_equals(initial,goaln));
+		System.out.println(Support.h(initial,goaln,num_empty_tiles));
 		ArrayList<Node> operators = new ArrayList<>();
 		operators = Support.make_operators(initial);
 		String[][] mmm;
 		for (int k = 0; k < operators.size(); k++) {
-			operators.get(k).to_string();;
-			System.out.println();
-			System.out.println();
+			System.out.println(operators.get(k).to_string());
 		}
 
 
-		//				
-		//				for(int i = 0 ; i < rows_num ; i++) {
-		//					for(int j = 0 ; j < colls_num ; j++) {
-		//						System.out.print(start[i][j] + " ");
-		//					}
-		//					System.out.println();
-		//				}
-		//				System.out.println();
-		//		
-		//				for(int i = 0 ; i < rows_num ; i++) {
-		//					for(int j = 0 ; j < colls_num ; j++) {
-		//						System.out.print(goal[i][j] + " ");
-		//					}
-		//					System.out.println();
-		//				}
-
+						
+						for(int i = 0 ; i < rows_num ; i++) {
+							for(int j = 0 ; j < colls_num ; j++) {
+								System.out.print(start[i][j] + " ");
+							}
+							System.out.println();
+						}
+						System.out.println();
+				
+						for(int i = 0 ; i < rows_num ; i++) {
+							for(int j = 0 ; j < colls_num ; j++) {
+								System.out.print(goal[i][j] + " ");
+							}
+							System.out.println();
+						} 
+*/
 
 	}
 }

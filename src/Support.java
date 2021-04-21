@@ -31,7 +31,6 @@ public class Support {
 						if(j > 0) {               //move right
 							create = copy(s);
 							String direction = create[i][j-1] + "&" + create[i+1][j-1] + "R";
-
 							create[i][j] = create[i][j-1];
 							create[i][j-1] = "_";
 							create[i+1][j] = create[i+1][j-1];
