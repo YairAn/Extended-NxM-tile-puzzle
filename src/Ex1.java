@@ -68,8 +68,8 @@ public class Ex1 {
 			 try {
 			      FileWriter myWriter = new FileWriter("output.txt");
 			      myWriter.write(path + "\n");
-			      myWriter.write("num: " + b.num_node_generated+ "\n");
-			      myWriter.write("cost: " + b.cost + "\n");
+			      myWriter.write("Num: " + b.num_node_generated+ "\n");
+			      myWriter.write("Cost: " + b.cost + "\n");
 			      if(with_time) { myWriter.write(b.time + " seconds" + "\n");}
 			      myWriter.close();
 			    } catch (IOException e) {

@@ -35,7 +35,7 @@ public class BFS {
 				while(itr.hasNext()){
 					System.out.println(itr.next());
 				}
-				System.out.println("********* end of iteration: *********");
+				System.out.println("********* end of iteration: *********\n");
 			}
 			Node n = q.poll();
 			hash_open.remove(n.to_string());
