@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -15,22 +16,34 @@ public class BFS {
 	int num_node_generated = 0;
 	double time  = 0.0;
 	int cost = 0;
+	boolean with_open;
 
-	public BFS(Node state,Node goal1) {
+	public BFS(Node state,Node goal1,boolean b) {
 		initial = state;
 		goal = goal1;
+		with_open = b;
 	}
-	
+
 	public void run_bfs() {
 		long start = System.currentTimeMillis();
 		q.add(initial);
+		hash_open.put(initial.to_string(), initial);
 		while(!q.isEmpty()) {
+			if(with_open) {
+				System.out.println("********* open list in the iteration:*********");
+				Iterator<String> itr = hash_open.keySet().iterator();		 
+				while(itr.hasNext()){
+					System.out.println(itr.next());
+				}
+				System.out.println("********* end of iteration: *********");
+			}
 			Node n = q.poll();
+			hash_open.remove(n.to_string());
 			hash_close.put(n.to_string(), n);
 			ArrayList<Node> op = Support.make_operators(n);
 			num_node_generated += op.size();
 			for(Node g : op) {
-				if(!(q.contains(g)) && !(hash_close.containsKey(g.to_string()))) {
+				if(!(hash_open.containsKey(g.to_string())) && !(hash_close.containsKey(g.to_string()))) {
 					if(g.equals(goal)) {
 						while(g.parent != null) {
 							path.add(0,g.direction);
@@ -42,7 +55,8 @@ public class BFS {
 						op.clear();
 						return ;
 					}
-					q.add(g); 
+					q.add(g);
+					hash_open.put(g.to_string(), g);
 				}
 			}
 		}

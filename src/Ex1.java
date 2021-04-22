@@ -1,3 +1,6 @@
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,12 +55,26 @@ public class Ex1 {
 		switch(algo_name)
 		{          
 		case "BFS":
-			BFS b = new BFS(initial,goaln);
+			BFS b = new BFS(initial,goaln,with_open);
 			b.run_bfs();
-			System.out.println(b.path);
-			System.out.println(b.num_node_generated);
-			System.out.println(b.cost);
-			System.out.println(b.time);
+			String path = "";
+			if(b.path.size() == 0) {path = "no path";}
+			else{
+				for (int i = 0; i < b.path.size(); i++) {			
+				path += b.path.get(i) + "-";
+				}
+				path = path.substring(0, path.length()-1);
+			}
+			 try {
+			      FileWriter myWriter = new FileWriter("output.txt");
+			      myWriter.write(path + "\n");
+			      myWriter.write("num: " + b.num_node_generated+ "\n");
+			      myWriter.write("cost: " + b.cost + "\n");
+			      if(with_time) { myWriter.write(b.time + " seconds" + "\n");}
+			      myWriter.close();
+			    } catch (IOException e) {
+			      e.printStackTrace();
+			    }
 			break;
 		case "DFID":
 			System.out.println("three");
