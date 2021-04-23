@@ -57,6 +57,7 @@ public class Ex1 {
 		case "BFS":
 			BFS b = new BFS(initial,goaln,with_open);
 			b.run_bfs();
+			//write to the output file
 			String path = "";
 			if(b.path.size() == 0) {path = "no path";}
 			else{
@@ -77,7 +78,27 @@ public class Ex1 {
 			    }
 			break;
 		case "DFID":
-			System.out.println("three");
+			DFID d = new DFID(initial,goaln);
+			d.run_dfid();
+			//write to the output file
+			String pathd = "";
+			if(d.path.size() == 0) {pathd = "no path";}
+			else{
+				for (int i = 0; i < d.path.size(); i++) {			
+				pathd += d.path.get(i) + "-";
+				}
+				path = pathd.substring(0, pathd.length()-1);
+			}
+			 try {
+			      FileWriter myWriter = new FileWriter("output.txt");
+			      myWriter.write(pathd + "\n");
+			      myWriter.write("Num: " + d.num_node_generated+ "\n");
+			      myWriter.write("Cost: " + d.cost + "\n");
+			      if(with_time) { myWriter.write(d.time + " seconds" + "\n");}
+			      myWriter.close();
+			    } catch (IOException e) {
+			      e.printStackTrace();
+			    }
 			break;
 		case "A*":
 			System.out.println("one");
