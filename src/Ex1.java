@@ -62,20 +62,20 @@ public class Ex1 {
 			if(b.path.size() == 0) {path = "no path";}
 			else{
 				for (int i = 0; i < b.path.size(); i++) {			
-				path += b.path.get(i) + "-";
+					path += b.path.get(i) + "-";
 				}
 				path = path.substring(0, path.length()-1);
 			}
-			 try {
-			      FileWriter myWriter = new FileWriter("output.txt");
-			      myWriter.write(path + "\n");
-			      myWriter.write("Num: " + b.num_node_generated+ "\n");
-			      myWriter.write("Cost: " + b.cost + "\n");
-			      if(with_time) { myWriter.write(b.time + " seconds" + "\n");}
-			      myWriter.close();
-			    } catch (IOException e) {
-			      e.printStackTrace();
-			    }
+			try {
+				FileWriter myWriter = new FileWriter("output.txt");
+				myWriter.write(path + "\n");
+				myWriter.write("Num: " + b.num_node_generated+ "\n");
+				myWriter.write("Cost: " + b.cost + "\n");
+				if(with_time) { myWriter.write(b.time + " seconds" + "\n");}
+				myWriter.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			break;
 		case "DFID":
 			DFID d = new DFID(initial,goaln);
@@ -85,26 +85,46 @@ public class Ex1 {
 			if(d.path.size() == 0) {pathd = "no path";}
 			else{
 				for (int i = 0; i < d.path.size(); i++) {			
-				pathd += d.path.get(i) + "-";
+					pathd += d.path.get(i) + "-";
 				}
-				path = pathd.substring(0, pathd.length()-1);
+				pathd = pathd.substring(0, pathd.length()-1);
 			}
-			 try {
-			      FileWriter myWriter = new FileWriter("output.txt");
-			      myWriter.write(pathd + "\n");
-			      myWriter.write("Num: " + d.num_node_generated+ "\n");
-			      myWriter.write("Cost: " + d.cost + "\n");
-			      if(with_time) { myWriter.write(d.time + " seconds" + "\n");}
-			      myWriter.close();
-			    } catch (IOException e) {
-			      e.printStackTrace();
-			    }
+			try {
+				FileWriter myWriter = new FileWriter("output.txt");
+				myWriter.write(pathd + "\n");
+				myWriter.write("Num: " + d.num_node_generated+ "\n");
+				myWriter.write("Cost: " + d.cost + "\n");
+				if(with_time) { myWriter.write(d.time + " seconds" + "\n");}
+				myWriter.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			break;
 		case "A*":
 			System.out.println("one");
 			break;
 		case "IDA*":
-			System.out.println("three");
+			IDA_star id = new IDA_star(initial,goaln,num_empty_tiles);
+			id.run_IDA();
+			//write to the output file
+			String pathid = "";
+			if(id.path.size() == 0) {pathid = "no path";}
+			else{
+				for (int i = 0; i < id.path.size(); i++) {			
+					pathid += id.path.get(i) + "-";
+				}
+				pathid = pathid.substring(0, pathid.length()-1);
+			}
+			try {
+				FileWriter myWriter = new FileWriter("output.txt");
+				myWriter.write(pathid + "\n");
+				myWriter.write("Num: " + id.num_node_generated+ "\n");
+				myWriter.write("Cost: " + id.cost + "\n");
+				if(with_time) { myWriter.write(id.time + " seconds" + "\n");}
+				myWriter.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}			
 			break;
 		case "DFBnB":
 			System.out.println("three");
@@ -114,12 +134,12 @@ public class Ex1 {
 		}
 
 
-		
-		
-		
-		
-		
-/*
+
+
+
+
+
+		/*
 		System.out.println(Support.is_state_equals(initial,goaln));
 		System.out.println(Support.h(initial,goaln,num_empty_tiles));
 		ArrayList<Node> operators = new ArrayList<>();
@@ -130,7 +150,7 @@ public class Ex1 {
 		}
 
 
-						
+
 						for(int i = 0 ; i < rows_num ; i++) {
 							for(int j = 0 ; j < colls_num ; j++) {
 								System.out.print(start[i][j] + " ");
@@ -138,14 +158,14 @@ public class Ex1 {
 							System.out.println();
 						}
 						System.out.println();
-				
+
 						for(int i = 0 ; i < rows_num ; i++) {
 							for(int j = 0 ; j < colls_num ; j++) {
 								System.out.print(goal[i][j] + " ");
 							}
 							System.out.println();
 						} 
-*/
+		 */
 
 	}
 }

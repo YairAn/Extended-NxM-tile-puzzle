@@ -22,7 +22,7 @@ public class Support {
 							create[i][j+1] = "_";
 							create[i+1][j] = create[i+1][j+1];
 							create[i+1][j+1] = "_";
-							n = new Node(create,node,6,direction);
+							n = new Node(create,node,6,direction,node.distance+6);
 							if(node.parent == null) {								
 								operators.add(n);
 							}else if(!is_state_equals(n, node.parent)) {						
@@ -36,7 +36,7 @@ public class Support {
 							create[i][j-1] = "_";
 							create[i+1][j] = create[i+1][j-1];
 							create[i+1][j-1] = "_";	
-							n = new Node(create,node,6,direction);
+							n = new Node(create,node,6,direction,node.distance+6);
 							if(node.parent == null) {								
 								operators.add(n);
 							}else if(!is_state_equals(n, node.parent)) {						
@@ -54,7 +54,7 @@ public class Support {
 							create[i+1][j] = "_";
 							create[i][j+1] = create[i+1][j+1];
 							create[i+1][j+1] = "_";	
-							n = new Node(create,node,7,direction);
+							n = new Node(create,node,7,direction,node.distance+7);
 							if(node.parent == null) {								
 								operators.add(n);
 							}else if(!is_state_equals(n, node.parent)) {						
@@ -69,7 +69,7 @@ public class Support {
 							create[i-1][j] = "_";
 							create[i][j+1] = create[i-1][j+1];
 							create[i-1][j+1] = "_";	
-							n = new Node(create,node,7,direction);
+							n = new Node(create,node,7,direction,node.distance+7);
 							if(node.parent == null) {								
 								operators.add(n);
 							}else if(!is_state_equals(n, node.parent)) {						
@@ -82,7 +82,7 @@ public class Support {
 						String direction = create[i][j+1] + "L";
 						create[i][j] = create[i][j+1];
 						create[i][j+1] = "_";
-						n = new Node(create,node,5,direction);
+						n = new Node(create,node,5,direction,node.distance+5);
 						boolean b = true;
 						if(node.parent!= null && create[i][j].equals(node.parent.state[i][j])) { b = false;}
 						if(node.parent == null && !(create[i][j].equals("_")) && b) {								
@@ -98,7 +98,7 @@ public class Support {
 
 						create[i][j] = create[i+1][j];
 						create[i+1][j] = "_";
-						n = new Node(create,node,5,direction);
+						n = new Node(create,node,5,direction,node.distance+5);
 						boolean b = true;
 						if(node.parent!= null && create[i][j].equals(node.parent.state[i][j])) { b = false;}
 						if(node.parent == null && !(create[i][j].equals("_")) && b) {								
@@ -113,7 +113,7 @@ public class Support {
 
 						create[i][j] = create[i][j-1];
 						create[i][j-1] = "_";
-						n = new Node(create,node,5,direction);
+						n = new Node(create,node,5,direction,node.distance+5);
 						boolean b = true;
 						if(node.parent!= null && create[i][j].equals(node.parent.state[i][j])) { b = false;}
 						if(node.parent == null && !(create[i][j].equals("_")) && b) {								
@@ -129,7 +129,7 @@ public class Support {
 
 						create[i][j] = create[i-1][j];
 						create[i-1][j] = "_";
-						n = new Node(create,node,5,direction);
+						n = new Node(create,node,5,direction,node.distance+5);
 						boolean b = true;
 						if(node.parent!= null && create[i][j].equals(node.parent.state[i][j])) { b = false;}
 						if(node.parent == null && !(create[i][j].equals("_")) && b) {								
@@ -185,6 +185,7 @@ public class Support {
 		}
 		return dist;
 	}
+	
 	public static String[][] copy(String[][] s){
 		String[][] copy = new String[s.length][s[0].length];
 		for(int i = 0 ; i < s.length ; i++) {

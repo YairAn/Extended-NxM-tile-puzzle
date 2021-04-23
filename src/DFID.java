@@ -19,7 +19,7 @@ public class DFID {
 		initial = state;
 		goal = goal1;
 	}
-
+    
 	public void run_dfid() {
 		long start = System.currentTimeMillis();
 		for(int depth = 1 ; depth < Integer.MAX_VALUE ; depth++) {

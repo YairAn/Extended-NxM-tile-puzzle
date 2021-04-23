@@ -4,6 +4,8 @@ public class Node {
 	String direction;
 	Node parent;
 	int cost;
+	boolean out = false;
+	int distance = 0;
 
 	public Node(String[][] s) {
 		state = s;
@@ -13,11 +15,12 @@ public class Node {
 		
 	}
 
-	public Node(String[][] s,Node p,int c,String d) {
+	public Node(String[][] s,Node p,int c,String d,int dist) {
 		state = s;
 		parent = p;
 		cost = c;
 		direction = d;
+		distance = dist;
 		
 	}
 	
@@ -26,6 +29,8 @@ public class Node {
 		this.direction = other.direction;
 		this.parent = other.parent;
 		this.state = other.state;
+		this.out = other.out;
+		this.distance = other.distance;
 	}
 	public String to_string(){
 		String str = "";
