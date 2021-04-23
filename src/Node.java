@@ -4,14 +4,16 @@ public class Node {
 	String direction;
 	Node parent;
 	int cost;
-	boolean out = false;
-	int distance = 0;
+	boolean out;
+	int distance;
 
 	public Node(String[][] s) {
 		state = s;
 		parent = null;
 		cost = 0;
 		direction = "";
+		distance = 0;
+		out = false;
 		
 	}
 
@@ -21,6 +23,7 @@ public class Node {
 		cost = c;
 		direction = d;
 		distance = dist;
+		out = false;
 		
 	}
 	

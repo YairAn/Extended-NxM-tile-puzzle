@@ -1,3 +1,4 @@
 no path
-Num: 6
+Num: 2
 Cost: 0
+0.0 seconds
