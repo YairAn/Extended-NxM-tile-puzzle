@@ -14,7 +14,7 @@ public class Support {
 			for (int j = 0; j < s[0].length; j++) {
 				if(s[i][j].equals("_")) {
 					if(i < s.length-1 && s[i+1][j].equals("_")) {		//move two vertical	
-						
+
 						if(j < s[0].length-1) {      //move left
 							create = copy(s);
 							String direction = create[i][j+1] + "&" + create[i+1][j+1] + "L";
@@ -157,7 +157,7 @@ public class Support {
 	}
 
 	//Haming distance heuristic function	
-	public static int h(Node st,Node goal,int t) {
+	public static int h2(Node st,Node goal,int t) {
 		int dist = 0;
 		int rows = st.state.length;
 		int colls = st.state[0].length;
@@ -177,13 +177,33 @@ public class Support {
 					dist++; 	   
 			}
 		}
-//		for(int i = 1; i <= t ;i++) {
-//
-//			if(!(s[s.length-i].equals("_"))) dist++;
-//		}
-	return dist;
+		//		for(int i = 1; i <= t ;i++) {
+		//
+		//			if(!(s[s.length-i].equals("_"))) dist++;
+		//		}
+		return dist;
 	}
-	
+    // Manhattan distance heuristic function
+	public static int h(Node st,Node goal,int t) {
+		int dist = 0;
+		int rows = st.state.length;
+		int colls = st.state[0].length;
+		for(int i = 0 ; i < rows ; i++) {
+			for(int j = 0 ; j < colls ; j++) {
+			   String str = st.state[i][j];			   
+               if(str.equals("_")) continue;
+               int val = Integer.parseInt(str); 
+               if(val != (i*colls+j+1)) {
+            	   int d = Math.abs(i - (val-1/colls)) + Math.abs(j - (val-1%colls));
+            	   dist+=d;
+               }
+
+			}
+		}
+		return dist;
+	}
+
+
 	public static String[][] copy(String[][] s){
 		String[][] copy = new String[s.length][s[0].length];
 		for(int i = 0 ; i < s.length ; i++) {

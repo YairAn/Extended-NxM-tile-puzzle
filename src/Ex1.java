@@ -110,7 +110,7 @@ public class Ex1 {
 			String pathid = "";
 			if(id.path.size() == 0) {pathid = "no path";}
 			else{
-				for (int i = 0; i < id.path.size(); i++) {			
+				for (int i = 1; i < id.path.size(); i++) {			
 					pathid += id.path.get(i) + "-";
 				}
 				pathid = pathid.substring(0, pathid.length()-1);
