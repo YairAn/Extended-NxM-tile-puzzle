@@ -22,10 +22,14 @@ public class IDA_star {
 	}
 	public void run_IDA() {
 		long start = System.currentTimeMillis();
-		t = Support.h(initial, goal, num_empty_tiles)*5;
+		t = 100; //Support.h(initial, goal, num_empty_tiles);
+		Node n  = new Node(initial);
 		while(t != Integer.MAX_VALUE) {
-			//System.out.println("t start : " + t);
+			System.out.println("t start : " + t);
 			int min_f = Integer.MAX_VALUE;
+			initial.out = false;
+			hash.clear();
+			st.clear();
 			st.push(initial);
 			hash.put(initial.to_string(), initial);
 			while(!st.empty()) {
@@ -33,7 +37,7 @@ public class IDA_star {
 				//System.out.println(st.peek().to_string());
 				//System.out.println(st.peek().out);
 
-				Node n = st.pop();
+			    n = st.pop();
 				if(n.out) {
 					hash.remove(n.to_string());
 				}else{
@@ -41,25 +45,23 @@ public class IDA_star {
 					st.push(n);
 					ArrayList<Node> op = Support.make_operators(n);
 					num_node_generated += op.size();
-					//System.out.println(op.size());
+				    System.out.println("****************");
+					System.out.println(op.size());
 					for(Node g : op) {
-						int f = g.distance + (Support.h(g, goal, num_empty_tiles)*5);
-						//System.out.println("f: " +f);
-						//System.out.println("t: "+t);
-
+						int f = g.distance + (Support.h(g, goal, num_empty_tiles));
+						System.out.println("f: " +f);
+						System.out.println("t: "+t);
 						if(f > t) {
 							min_f = Math.min(min_f , f);
-						//	System.out.println("min f : " +min_f);
+							//System.out.println("min f : " +min_f);
 							continue;
 						}
-						
-
 						if(hash.containsKey(g.to_string()) && (hash.get(g.to_string()).out == true)) {
 							continue;
 						}
 						if(hash.containsKey(g.to_string()) && (hash.get(g.to_string()).out == false)) {
 							Node g_tag = hash.get(g.to_string()) ;
-							int f_tag = g_tag.distance + (Support.h(g_tag, goal, num_empty_tiles)*5);
+							int f_tag = g_tag.distance + (Support.h(g_tag, goal, num_empty_tiles));
 							if(f_tag > f) {
 								hash.remove(g_tag.to_string());
 								st.remove(g_tag);	
@@ -67,7 +69,6 @@ public class IDA_star {
 								continue;
 							}
 						}
-
 						if(g.equals(goal)) {
 							System.out.println("im here");
                             g.out = true;
@@ -80,8 +81,7 @@ public class IDA_star {
 								}
 							}
 							return;
-						}
-						
+						}					
 						st.push(g);
 						hash.put(g.to_string(), g);	
 						//System.out.println("push");
@@ -90,8 +90,9 @@ public class IDA_star {
 				}
 			}
 			t = min_f;
-			st.clear(); // maybe no need???
-			//System.out.println("t end : " +t);
+			//n.out = false;
+			//st.clear(); // maybe no need???
+			System.out.println("t end : " +t);
 		}
 		long end = System.currentTimeMillis() ;
 		time = (double)(end - start) / 1000;

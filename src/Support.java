@@ -184,23 +184,25 @@ public class Support {
 		return dist;
 	}
     // Manhattan distance heuristic function
-	public static int h(Node st,Node goal,int t) {
+	public static int h(Node st,Node goal,int t) { //to do - improve to any kind of goal node
 		int dist = 0;
 		int rows = st.state.length;
 		int colls = st.state[0].length;
 		for(int i = 0 ; i < rows ; i++) {
 			for(int j = 0 ; j < colls ; j++) {
-			   String str = st.state[i][j];			   
-               if(str.equals("_")) continue;
-               int val = Integer.parseInt(str); 
-               if(val != (i*colls+j+1)) {
-            	   int d = Math.abs(i - (val-1/colls)) + Math.abs(j - (val-1%colls));
+			   String str = st.state[i][j];	
+			   int val;
+               if(str.equals("_")) {continue;} //{val = rows*colls;} {continue;}
+               else{val = Integer.parseInt(str);} 
+               if(!st.state[i][j].equals(goal.state[i][j])) {
+            	   int d = Math.abs(i - ((val-1)/colls)) + Math.abs(j - ((val-1)%colls));
             	   dist+=d;
                }
 
 			}
 		}
-		return dist;
+		//System.out.println("dist : " + dist + ", type :" + st.direction);
+		return (dist*5);
 	}
 
 
