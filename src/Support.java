@@ -23,6 +23,7 @@ public class Support {
 							create[i+1][j] = create[i+1][j+1];
 							create[i+1][j+1] = "_";
 							n = new Node(create,node,6,direction,(node.distance+6));
+							n.when_burn = Node.burn;
 							if(node.parent == null) {								
 								operators.add(n);
 							}else if(!is_state_equals(n, node.parent)) {						
@@ -37,6 +38,7 @@ public class Support {
 							create[i+1][j] = create[i+1][j-1];
 							create[i+1][j-1] = "_";	
 							n = new Node(create,node,6,direction,(node.distance+6));
+							n.when_burn = Node.burn;
 							if(node.parent == null) {								
 								operators.add(n);
 							}else if(!is_state_equals(n, node.parent)) {						
@@ -55,6 +57,7 @@ public class Support {
 							create[i][j+1] = create[i+1][j+1];
 							create[i+1][j+1] = "_";	
 							n = new Node(create,node,7,direction,(node.distance+7));
+							n.when_burn = Node.burn;
 							if(node.parent == null) {								
 								operators.add(n);
 							}else if(!is_state_equals(n, node.parent)) {						
@@ -70,6 +73,8 @@ public class Support {
 							create[i][j+1] = create[i-1][j+1];
 							create[i-1][j+1] = "_";	
 							n = new Node(create,node,7,direction,(node.distance+7));
+							n.when_burn = Node.burn;
+
 							if(node.parent == null) {								
 								operators.add(n);
 							}else if(!is_state_equals(n, node.parent)) {						
@@ -83,6 +88,7 @@ public class Support {
 						create[i][j] = create[i][j+1];
 						create[i][j+1] = "_";
 						n = new Node(create,node,5,direction,(node.distance+5));
+						n.when_burn = Node.burn;
 						boolean b = true;
 						if(node.parent!= null && create[i][j].equals(node.parent.state[i][j])) { b = false;}
 						if(node.parent == null && !(create[i][j].equals("_")) && b) {								
@@ -99,6 +105,7 @@ public class Support {
 						create[i][j] = create[i+1][j];
 						create[i+1][j] = "_";
 						n = new Node(create,node,5,direction,(node.distance+5));
+						n.when_burn = Node.burn;
 						boolean b = true;
 						if(node.parent!= null && create[i][j].equals(node.parent.state[i][j])) { b = false;}
 						if(node.parent == null && !(create[i][j].equals("_")) && b) {								
@@ -114,6 +121,7 @@ public class Support {
 						create[i][j] = create[i][j-1];
 						create[i][j-1] = "_";
 						n = new Node(create,node,5,direction,(node.distance+5));
+						n.when_burn = Node.burn;
 						boolean b = true;
 						if(node.parent!= null && create[i][j].equals(node.parent.state[i][j])) { b = false;}
 						if(node.parent == null && !(create[i][j].equals("_")) && b) {								
@@ -128,6 +136,7 @@ public class Support {
 						create[i][j] = create[i-1][j];
 						create[i-1][j] = "_";
 						n = new Node(create,node,5,direction,(node.distance+5));
+						n.when_burn = Node.burn;
 						boolean b = true;
 						if(node.parent!= null && create[i][j].equals(node.parent.state[i][j])) { b = false;}
 						if(node.parent == null && !(create[i][j].equals("_")) && b) {								
@@ -188,7 +197,7 @@ public class Support {
 	
 	
     // Manhattan distance heuristic function
-	public static int h(Node st,Node goal,int t) { //to do - improve to any kind of goal node
+	public static double h(Node st,Node goal,int t) { //to do - improve to any kind of goal node
 		int dist = 0;
 		int rows = st.state.length;
 		int colls = st.state[0].length;
@@ -206,7 +215,7 @@ public class Support {
 			}
 		}
 		//System.out.println("dist : " + dist + ", type :" + st.direction);
-		return (dist*4);
+		return (dist*5.0);
 	}
 
 

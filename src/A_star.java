@@ -56,7 +56,7 @@ public class A_star {
 			num_node_generated += op.size();
 			for(Node g : op) {
 				//System.out.println("in for loop");
-				int f = g.distance + (Support.h(g, goal, 2));
+				double f = g.distance + (Support.h(g, goal, 2));
 				g.f =f;
 				//System.out.println("f: "+f);
 				if(!(hash_open.containsKey(g.to_string())) && !(hash_close.containsKey(g.to_string()))) {
@@ -64,9 +64,9 @@ public class A_star {
 					hash_open.put(g.to_string(), g);
 
 				}else if(hash_open.containsKey(g.to_string())){
-					  if(hash_open.get(g.to_string()).f > f) {
-						 hash_open.remove(g.to_string());
-						 hash_open.put(g.to_string(), g);
+					if(hash_open.get(g.to_string()).f > f) {
+						hash_open.remove(g.to_string());
+						hash_open.put(g.to_string(), g);
 					}					
 				}
 			}
@@ -75,20 +75,38 @@ public class A_star {
 		time = (double)(end - start) / 1000;
 		return;
 	}
-	
+
 	public void chek() {
 		Node a  = new Node(initial);
+		a.when_burn = Node.burn;
+
 		Node b  = new Node(initial);
+		b.when_burn = Node.burn;
+
 		Node c  = new Node(initial);
-		a.f = 10;
-		b.f = 20;
-		c.f = 15;
+		c.when_burn = Node.burn;
+
+		Node d  = new Node(initial);
+		d.when_burn = Node.burn;
+
+
+		a.f = 15;
+		b.f = 10;
+
+		c.f = 10;
+
+		d.f = 10;
+
+		
+
 		q.add(a);
 		q.add(b);
 		q.add(c);
-        System.out.println(q.poll().f);
-        System.out.println(q.poll().f);
-        System.out.println(q.poll().f);
+		q.add(d);
+		System.out.println(q.peek().f + " " + q.poll().when_burn);
+		System.out.println(q.peek().f + " " + q.poll().when_burn);
+		System.out.println(q.peek().f + " " + q.poll().when_burn);
+		System.out.println(q.peek().f + " " + q.poll().when_burn);
 
 
 	}
@@ -96,8 +114,8 @@ public class A_star {
 	class CustomComparator implements Comparator<Node> {
 
 		@Override
-		public int compare(Node number1, Node number2) {
-			int value =  (number1.f) - (number2.f);
+		public int compare(Node n1, Node n2) {
+			double value =  (n1.f) - (n2.f);
 			// elements are sorted in reverse order
 			if (value > 0) {
 				return 1;
@@ -105,9 +123,12 @@ public class A_star {
 			else if (value < 0) {
 				return -1;
 			}
-			else {
-				return 0;
+			else if(n1.when_burn < n2.when_burn){
+				return -1;
+			} else {
+				return 1;
 			}
+
 		}
 	}
 }

@@ -6,7 +6,9 @@ public class Node {
 	int cost;
 	boolean out;
 	int distance;
-	int f = 0;
+	double f = 0;
+	int when_burn; //this is for comparator check in A* and DFBnB
+	static int burn;//this too
 
 	public Node(String[][] s) {
 		state = s;
@@ -15,6 +17,7 @@ public class Node {
 		direction = "";
 		distance = 0;
 		out = false;
+		burn++;
 		
 	}
 
@@ -25,6 +28,7 @@ public class Node {
 		direction = d;
 		distance = dist;
 		out = false;
+		burn++;
 		
 	}
 	
@@ -35,6 +39,7 @@ public class Node {
 		this.state = other.state;
 		this.out = other.out;
 		this.distance = other.distance;
+		burn++;
 	}
 	public String to_string(){
 		String str = "";
