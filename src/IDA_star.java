@@ -12,7 +12,7 @@ public class IDA_star {
 	int num_node_generated = 0;
 	double time  = 0.0;
 	int cost = 0;
-	int t;
+	double t;
 	int num_empty_tiles;
 
 	public IDA_star(Node state,Node goal1,int num) {
@@ -22,12 +22,12 @@ public class IDA_star {
 	}
 	public void run_IDA() {
 		long start = System.currentTimeMillis();
-		t = 60; //Support.h(initial, goal, num_empty_tiles);
+		t = Support.h(initial, goal, num_empty_tiles);
 		Node n  = new Node(initial);
 		while(t != Integer.MAX_VALUE) {
 			System.out.println("t start : " + t);
-			int min_f = Integer.MAX_VALUE;
-			//initial.out = false;
+			double min_f = Integer.MAX_VALUE;
+			initial.out = false;
 			hash.clear();
 			st.clear();
 			st.push(initial);
@@ -49,7 +49,7 @@ public class IDA_star {
 				    System.out.println("****************");
 					System.out.println(op.size());
 					for(Node g : op) {
-						int f = g.distance + (Support.h(g, goal, num_empty_tiles));
+						double f = g.distance + (Support.h(g, goal, num_empty_tiles));
 						System.out.println("f: " +f);
 						System.out.println("t: "+t);
 						if(f > t) {
@@ -62,7 +62,7 @@ public class IDA_star {
 						}
 						if(hash.containsKey(g.to_string()) && (hash.get(g.to_string()).out == false)) {
 							Node g_tag = hash.get(g.to_string()) ;
-							int f_tag = g_tag.distance + (Support.h(g_tag, goal, num_empty_tiles));
+							double f_tag = g_tag.distance + (Support.h(g_tag, goal, num_empty_tiles));
 							if(f_tag > f) {
 								hash.remove(g_tag.to_string());
 								st.remove(g_tag);	
@@ -81,7 +81,10 @@ public class IDA_star {
 									cost += node.cost;
 								}
 							}
+							long end = System.currentTimeMillis() ;
+							time = (double)(end - start) / 1000;
 							return;
+
 						}					
 						st.push(g);
 						hash.put(g.to_string(), g);	
