@@ -158,6 +158,7 @@ public class Support {
 
 	//Haming distance heuristic function	
 	public static int h2(Node st,Node goal,int t) {
+
 		int dist = 0;
 		int rows = st.state.length;
 		int colls = st.state[0].length;
@@ -183,6 +184,9 @@ public class Support {
 		//		}
 		return dist;
 	}
+	
+	
+	
     // Manhattan distance heuristic function
 	public static int h(Node st,Node goal,int t) { //to do - improve to any kind of goal node
 		int dist = 0;
@@ -202,7 +206,7 @@ public class Support {
 			}
 		}
 		//System.out.println("dist : " + dist + ", type :" + st.direction);
-		return (dist*5);
+		return (dist*4);
 	}
 
 

@@ -26,7 +26,7 @@ public class DFID {
 			hash.clear();
 			String result  = limited_dfs(initial,goal,depth);
 			if(!(result.equals("cutoff"))) {
-				return;
+				break;  //return; //break; because time
 			}
 		}
 		long end = System.currentTimeMillis() ;
@@ -35,6 +35,8 @@ public class DFID {
 	}
 
 	private String limited_dfs(Node node, Node goal, int depth) {
+		
+
 		String result = "";
 		boolean is_cutoff = false;
 		if(node.equals(goal)) {

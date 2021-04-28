@@ -51,6 +51,7 @@ public class Ex1 {
 		}
 		Node initial = new Node(start);
 		Node goaln = new Node(goal);
+		
 		//choose witch algorithm to activate		
 		switch(algo_name)
 		{          
@@ -101,8 +102,30 @@ public class Ex1 {
 			}
 			break;
 		case "A*":
-			System.out.println("one");
+			A_star a = new A_star(initial,goaln,with_open);
+			a.run_A_star();
+			//a.chek();
+			//write to the output file
+			String pathA = "";
+			if(a.path.size() == 0) {path = "no path";}
+			else{
+				for (int i = 0; i < a.path.size(); i++) {			
+					pathA += a.path.get(i) + "-";
+				}
+				pathA = pathA.substring(0, pathA.length()-1);
+			}
+			try {
+				FileWriter myWriter = new FileWriter("output.txt");
+				myWriter.write(pathA + "\n");
+				myWriter.write("Num: " + a.num_node_generated+ "\n");
+				myWriter.write("Cost: " + a.cost + "\n");
+				if(with_time) { myWriter.write(a.time + " seconds" + "\n");}
+				myWriter.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			break;
+			
 		case "IDA*":
 			IDA_star id = new IDA_star(initial,goaln,num_empty_tiles);
 			id.run_IDA();

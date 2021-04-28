@@ -22,12 +22,12 @@ public class IDA_star {
 	}
 	public void run_IDA() {
 		long start = System.currentTimeMillis();
-		t = 100; //Support.h(initial, goal, num_empty_tiles);
+		t = 60; //Support.h(initial, goal, num_empty_tiles);
 		Node n  = new Node(initial);
 		while(t != Integer.MAX_VALUE) {
 			System.out.println("t start : " + t);
 			int min_f = Integer.MAX_VALUE;
-			initial.out = false;
+			//initial.out = false;
 			hash.clear();
 			st.clear();
 			st.push(initial);
@@ -41,6 +41,7 @@ public class IDA_star {
 				if(n.out) {
 					hash.remove(n.to_string());
 				}else{
+					System.out.println("in the else");
 					n.out = true;
 					st.push(n);
 					ArrayList<Node> op = Support.make_operators(n);

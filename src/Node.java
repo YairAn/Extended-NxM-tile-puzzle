@@ -6,6 +6,7 @@ public class Node {
 	int cost;
 	boolean out;
 	int distance;
+	int f = 0;
 
 	public Node(String[][] s) {
 		state = s;
