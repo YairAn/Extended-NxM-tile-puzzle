@@ -215,7 +215,7 @@ public class Support {
 			}
 		}
 		//System.out.println("dist : " + dist + ", type :" + st.direction);
-		return (dist*5.0);
+		return (dist*6.4);
 	}
 
 

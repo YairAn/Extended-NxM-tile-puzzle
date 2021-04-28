@@ -41,7 +41,6 @@ public class A_star {
 			Node n = q.poll();
 			hash_open.remove(n.to_string());
 			if(n.equals(goal)) {
-				//System.out.println("in equals");
 				while(n.parent != null) {
 					path.add(0,n.direction);
 					cost += n.cost;
@@ -55,16 +54,16 @@ public class A_star {
 			ArrayList<Node> op = Support.make_operators(n);
 			num_node_generated += op.size();
 			for(Node g : op) {
-				//System.out.println("in for loop");
-				double f = g.distance + (Support.h(g, goal, 2));
-				g.f =f;
-				//System.out.println("f: "+f);
+				double f = g.distance + Support.h(g, goal, 2);
+				g.f = f;
 				if(!(hash_open.containsKey(g.to_string())) && !(hash_close.containsKey(g.to_string()))) {
 					q.add(g);
 					hash_open.put(g.to_string(), g);
 
 				}else if(hash_open.containsKey(g.to_string())){
 					if(hash_open.get(g.to_string()).f > f) {
+						q.remove(hash_open.get(g.to_string()));
+						q.add(g);
 						hash_open.remove(g.to_string());
 						hash_open.put(g.to_string(), g);
 					}					
@@ -92,12 +91,8 @@ public class A_star {
 
 		a.f = 15;
 		b.f = 10;
-
 		c.f = 10;
-
 		d.f = 10;
-
-		
 
 		q.add(a);
 		q.add(b);
@@ -116,7 +111,6 @@ public class A_star {
 		@Override
 		public int compare(Node n1, Node n2) {
 			double value =  (n1.f) - (n2.f);
-			// elements are sorted in reverse order
 			if (value > 0) {
 				return 1;
 			}
