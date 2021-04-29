@@ -51,7 +51,7 @@ public class Ex1 {
 		}
 		Node initial = new Node(start);
 		Node goaln = new Node(goal);
-		
+
 		//choose witch algorithm to activate		
 		switch(algo_name)
 		{          
@@ -125,7 +125,7 @@ public class Ex1 {
 				e.printStackTrace();
 			}
 			break;
-			
+
 		case "IDA*":
 			IDA_star id = new IDA_star(initial,goaln,num_empty_tiles);
 			id.run_IDA();
@@ -150,7 +150,27 @@ public class Ex1 {
 			}			
 			break;
 		case "DFBnB":
-			System.out.println(Support.h(initial,goaln,num_empty_tiles));
+			DFBnB df = new DFBnB(initial,goaln,num_empty_tiles);
+			df.run_DFBnB();
+			//write to the output file
+			String pathdf = "";
+			if(df.path.size() == 0) {pathdf = "no path";}
+			else{
+				for (int i = 1; i < df.path.size(); i++) {			
+					pathdf += df.path.get(i) + "-";
+				}
+				pathdf = pathdf.substring(0, pathdf.length()-1);
+			}
+			try {
+				FileWriter myWriter = new FileWriter("output.txt");
+				myWriter.write(pathdf + "\n");
+				myWriter.write("Num: " + df.num_node_generated+ "\n");
+				myWriter.write("Cost: " + df.cost + "\n");
+				if(with_time) { myWriter.write(df.time + " seconds" + "\n");}
+				myWriter.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			break;
 		default:
 			System.out.println("no match");

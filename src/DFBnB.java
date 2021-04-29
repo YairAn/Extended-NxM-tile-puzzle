@@ -26,14 +26,13 @@ public class DFBnB {
 
 	public void run_DFBnB() {
 		long start = System.currentTimeMillis();
-		ArrayList<String> result = new ArrayList<>();
 		int board_size = initial.state.length*initial.state[0].length;
 		t = factorial(board_size); //upper bound on the depth of the solution
+		System.out.println(t);
 		st.push(initial);
 		hash.put(initial.to_string(), initial);		
 		while(!(st.empty())) {
 			Node n = st.pop();
-			n = st.pop();
 			if(n.out) {
 				hash.remove(n.to_string());
 			}else{
@@ -44,7 +43,7 @@ public class DFBnB {
 				for(Node g : op) {
 					g.f = g.distance + Support.h(g, goal, num_empty_tiles);
 				}
-				Collections.sort(op,new CustomComparator());
+				op.sort(new CustomComparator());
 				for(int i = 0; i < op.size() ; i++) {
 					Node g = op.get(i);
 					if(g.f > t) {
@@ -53,8 +52,6 @@ public class DFBnB {
 						}
 					}else if(hash.containsKey(g.to_string()) && (hash.get(g.to_string()).out == true)) {
 						op.remove(i);
-
-
 					}else if(hash.containsKey(g.to_string()) && (hash.get(g.to_string()).out == false)) {
 						if(hash.get(g.to_string()).f <= g.f) {
 							op.remove(i);
@@ -62,8 +59,6 @@ public class DFBnB {
 							st.remove(hash.get(g.to_string()));
 							hash.remove(g.to_string());
 						}
-
-
 					}else if(g.equals(goal)) {
 						t = g.f;
 						path.clear();
@@ -82,18 +77,17 @@ public class DFBnB {
 						}
 					}
 				}
-
 				for(int j = op.size()-1 ; j >= 0; j--) {
-
 					Node in = op.get(j);
 					st.add(in);
 					hash.put(in.to_string() , in);
 				}
 			}
-			long end = System.currentTimeMillis() ;
-			time = (double)(end - start) / 1000;
-			return;
+			
 		}
+		long end = System.currentTimeMillis() ;
+		time = (double)(end - start) / 1000;
+		return;
 	}
 
 	private double factorial(int board_size) {
