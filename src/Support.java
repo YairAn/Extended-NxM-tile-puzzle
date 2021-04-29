@@ -1,7 +1,7 @@
 import java.lang.Thread.State;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
-
 public class Support {
 
 	public static ArrayList<Node> make_operators(Node node) {
@@ -191,31 +191,52 @@ public class Support {
 		//
 		//			if(!(s[s.length-i].equals("_"))) dist++;
 		//		}
-		return dist;
+		return dist*2;
 	}
-	
-	
-	
-    // Manhattan distance heuristic function
+
+
+
+	// Manhattan distance heuristic function
 	public static double h(Node st,Node goal,int t) { //to do - improve to any kind of goal node
+
 		int dist = 0;
 		int rows = st.state.length;
 		int colls = st.state[0].length;
+		int empty = 0;
+		Hashtable<Integer,int[]> position = new Hashtable<>();
 		for(int i = 0 ; i < rows ; i++) {
 			for(int j = 0 ; j < colls ; j++) {
-			   String str = st.state[i][j];	
-			   int val;
-               if(str.equals("_")) {continue;} //{val = rows*colls;} {continue;}
-               else{val = Integer.parseInt(str);} 
-               if(!st.state[i][j].equals(goal.state[i][j])) {
-            	   int d = Math.abs(i - ((val-1)/colls)) + Math.abs(j - ((val-1)%colls));
-            	   dist+=d;
-               }
+				String str = goal.state[i][j];
+				if(str.equals("_")) {
+					continue;
+				}else{
+					int key = Integer.parseInt(str);
+					int[] pos = {i,j};
+					position.put(key, pos);				 
+				} 
+			}
+		}
+		for(int i = 0 ; i < rows ; i++) {
+			for(int j = 0 ; j < colls ; j++) {
+				String str = st.state[i][j];	
+				int val;
+				if(str.equals("_")) {
+					continue;
+				}else{
+					val = Integer.parseInt(str);
+				} 
+				if(!st.state[i][j].equals(goal.state[i][j])) {
+					int goal_i = position.get(val)[0];
+					int goal_j = position.get(val)[1];
+					int d = Math.abs(i - goal_i) + Math.abs(j - goal_j);
+					dist+=d;
+				}
 
 			}
 		}
-		//System.out.println("dist : " + dist + ", type :" + st.direction);
-		return (dist*4);
+		double factor = 5;
+		if(t == 2) factor = 3.6;//memuza meshuklal
+		return (dist*factor);
 	}
 
 
@@ -229,3 +250,10 @@ public class Support {
 		return copy;
 	}
 }
+//if(empty == 0 && t==2) {
+//val = rows*colls-1;
+//empty++;
+//}else {
+// val = rows*colls;
+//}  
+// 					int d = Math.abs(i - ((val-1)/colls)) + Math.abs(j - ((val-1)%colls));

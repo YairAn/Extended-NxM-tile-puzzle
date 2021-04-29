@@ -102,7 +102,7 @@ public class Ex1 {
 			}
 			break;
 		case "A*":
-			A_star a = new A_star(initial,goaln,with_open);
+			A_star a = new A_star(initial,goaln,with_open,num_empty_tiles);
 			a.run_A_star();
 			//a.chek();
 			//write to the output file
@@ -150,7 +150,7 @@ public class Ex1 {
 			}			
 			break;
 		case "DFBnB":
-			System.out.println("three");
+			System.out.println(Support.h(initial,goaln,num_empty_tiles));
 			break;
 		default:
 			System.out.println("no match");

@@ -17,12 +17,15 @@ public class A_star {
 	double time  = 0.0;
 	int cost = 0;
 	boolean with_open;
+	int num_empty_tiles;
 
 
-	public A_star(Node state,Node goal1,boolean b) {
+
+	public A_star(Node state,Node goal1,boolean b , int n) {
 		initial = state;
 		goal = goal1;
 		with_open = b;
+		num_empty_tiles = n;
 	}
 
 	public void run_A_star() {
@@ -54,7 +57,7 @@ public class A_star {
 			ArrayList<Node> op = Support.make_operators(n);
 			num_node_generated += op.size();
 			for(Node g : op) {
-				double f = g.distance + Support.h(g, goal, 2);
+				double f = g.distance + Support.h(g, goal, num_empty_tiles);
 				g.f = f;
 				if(!(hash_open.containsKey(g.to_string())) && !(hash_close.containsKey(g.to_string()))) {
 					q.add(g);

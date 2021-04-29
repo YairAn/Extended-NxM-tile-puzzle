@@ -1,4 +1,124 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Stack;
 
 public class DFBnB {
+	Node initial;
+	Node goal;
+	Hashtable<String, Node> hash = new Hashtable<>();
+	Stack<Node> st = new Stack<Node>();
+	ArrayList<String> path = new ArrayList<>();
+	int num_node_generated = 0;
+	double time  = 0.0;
+	int cost = 0;
+	double t;
+	int num_empty_tiles;
 
+	public DFBnB(Node state,Node goal1,int num) {
+		initial = state;
+		goal = goal1;
+		num_empty_tiles = num;
+	}
+
+
+	public void run_DFBnB() {
+		long start = System.currentTimeMillis();
+		ArrayList<String> result = new ArrayList<>();
+		int board_size = initial.state.length*initial.state[0].length;
+		t = factorial(board_size); //upper bound on the depth of the solution
+		st.push(initial);
+		hash.put(initial.to_string(), initial);		
+		while(!(st.empty())) {
+			Node n = st.pop();
+			n = st.pop();
+			if(n.out) {
+				hash.remove(n.to_string());
+			}else{
+				n.out = true;
+				st.push(n);
+				ArrayList<Node> op = Support.make_operators(n);
+				num_node_generated += op.size();
+				for(Node g : op) {
+					g.f = g.distance + Support.h(g, goal, num_empty_tiles);
+				}
+				Collections.sort(op,new CustomComparator());
+				for(int i = 0; i < op.size() ; i++) {
+					Node g = op.get(i);
+					if(g.f > t) {
+						for(int j = i ; j < op.size(); j++) {
+							op.remove(j);
+						}
+					}else if(hash.containsKey(g.to_string()) && (hash.get(g.to_string()).out == true)) {
+						op.remove(i);
+
+
+					}else if(hash.containsKey(g.to_string()) && (hash.get(g.to_string()).out == false)) {
+						if(hash.get(g.to_string()).f <= g.f) {
+							op.remove(i);
+						}else {
+							st.remove(hash.get(g.to_string()));
+							hash.remove(g.to_string());
+						}
+
+
+					}else if(g.equals(goal)) {
+						t = g.f;
+						path.clear();
+						cost = 0;
+						g.out = true;
+						st.push(g);
+						while (!st.empty()) {
+							Node node = st.pop();
+							if(node.out) {
+								path.add(0,node.direction);
+								cost += node.cost;
+							}
+						}
+						for(int j = i ; j < op.size(); j++) {
+							op.remove(j);
+						}
+					}
+				}
+
+				for(int j = op.size()-1 ; j >= 0; j--) {
+
+					Node in = op.get(j);
+					st.add(in);
+					hash.put(in.to_string() , in);
+				}
+			}
+			long end = System.currentTimeMillis() ;
+			time = (double)(end - start) / 1000;
+			return;
+		}
+	}
+
+	private double factorial(int board_size) {
+		if(board_size == 1 || board_size == 0) return 1;
+		else
+			return board_size*(factorial(board_size-1));
+	}
+
+	class CustomComparator implements Comparator<Node> {
+
+		@Override
+		public int compare(Node n1, Node n2) {
+			double value =  (n1.f) - (n2.f);
+			if (value > 0) {
+				return 1;
+			}
+			else if (value < 0) {
+				return -1;
+			}
+			else if(n1.when_burn < n2.when_burn){
+				return -1;
+			} else {
+				return 1;
+			}
+
+		}
+	}
 }
