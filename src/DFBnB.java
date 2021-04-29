@@ -27,7 +27,7 @@ public class DFBnB {
 	public void run_DFBnB() {
 		long start = System.currentTimeMillis();
 		int board_size = initial.state.length*initial.state[0].length;
-		t = factorial(board_size); //upper bound on the depth of the solution
+		t = Math.max(Integer.MAX_VALUE , factorial(board_size)); //upper bound on the depth of the solution
 		System.out.println(t);
 		st.push(initial);
 		hash.put(initial.to_string(), initial);		
