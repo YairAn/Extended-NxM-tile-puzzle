@@ -191,18 +191,17 @@ public class Support {
 		//
 		//			if(!(s[s.length-i].equals("_"))) dist++;
 		//		}
-		return dist*2;
+		return dist*5;
 	}
 
 
 
 	// Manhattan distance heuristic function
-	public static double h(Node st,Node goal,int t) { //to do - improve to any kind of goal node
+	public static double h(Node st,Node goal,int t) { 
 
 		int dist = 0;
 		int rows = st.state.length;
 		int colls = st.state[0].length;
-		int empty = 0;
 		Hashtable<Integer,int[]> position = new Hashtable<>();
 		for(int i = 0 ; i < rows ; i++) {
 			for(int j = 0 ; j < colls ; j++) {
@@ -235,7 +234,7 @@ public class Support {
 			}
 		}
 		double factor = 5;
-		if(t == 2) factor = 3.6;//memuza meshuklal
+		if(t == 2) factor = 3.6;//Uses a weighted average in case of two empty tiles
 		return (dist*factor);
 	}
 

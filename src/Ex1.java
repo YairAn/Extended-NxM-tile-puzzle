@@ -173,6 +173,21 @@ public class Ex1 {
 			}
 			break;
 		default:
+			ArrayList<Integer> sss = new ArrayList<>();
+			sss.add(2);
+			sss.add(3);
+			sss.add(4);
+			sss.add(5);
+			sss.add(6);
+			sss.add(7);
+			sss.add(8);
+			sss.add(9);
+            sss.subList(3, sss.size()).clear();
+            for(int i : sss) {
+            	System.out.println(i);
+            }
+			
+
 			System.out.println("no match");
 		}
 

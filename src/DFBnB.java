@@ -27,11 +27,10 @@ public class DFBnB {
 	public void run_DFBnB() {
 		long start = System.currentTimeMillis();
 		int board_size = initial.state.length*initial.state[0].length;
-		t = Math.max(Integer.MAX_VALUE , factorial(board_size)); //upper bound on the depth of the solution
-		System.out.println(t);
+		t = Math.min(Integer.MAX_VALUE , factorial(board_size)); //upper bound on the depth of the solution
 		st.push(initial);
-		hash.put(initial.to_string(), initial);		
-		while(!(st.empty())) {
+		hash.put(initial.to_string(), initial);	
+		while(!(st.empty())) {		
 			Node n = st.pop();
 			if(n.out) {
 				hash.remove(n.to_string());
@@ -46,10 +45,9 @@ public class DFBnB {
 				op.sort(new CustomComparator());
 				for(int i = 0; i < op.size() ; i++) {
 					Node g = op.get(i);
-					if(g.f > t) {
-						for(int j = i ; j < op.size(); j++) {
-							op.remove(j);
-						}
+					if(g.f >= t) {
+			            op.subList(i, op.size()).clear();
+			            
 					}else if(hash.containsKey(g.to_string()) && (hash.get(g.to_string()).out == true)) {
 						op.remove(i);
 					}else if(hash.containsKey(g.to_string()) && (hash.get(g.to_string()).out == false)) {
@@ -65,19 +63,27 @@ public class DFBnB {
 						cost = 0;
 						g.out = true;
 						st.push(g);
-						while (!st.empty()) {
+						hash.put(g.to_string() , g);
+						Stack<Node> tmp = new Stack<Node>();
+
+						while (!st.empty()) { //save the past to this current goal node.
 							Node node = st.pop();
+							tmp.push(node);
+							//hash.remove(node.to_string()); //???
 							if(node.out) {
 								path.add(0,node.direction);
 								cost += node.cost;
 							}
 						}
-						for(int j = i ; j < op.size(); j++) {
-							op.remove(j);
+						while(!tmp.empty()) {
+							st.push(tmp.pop()); // put the elements back in the stack
 						}
+						st.pop().out=false;; // remove g from stack
+			            op.subList(i, op.size()).clear();
+
 					}
 				}
-				for(int j = op.size()-1 ; j >= 0; j--) {
+				for(int j = op.size()-1 ; j >= 0; j--) {//insert op to stack and hash in  a reverse order
 					Node in = op.get(j);
 					st.add(in);
 					hash.put(in.to_string() , in);
