@@ -27,7 +27,7 @@ public class DFBnB {
 	public void run_DFBnB() {
 		long start = System.currentTimeMillis();
 		int board_size = initial.state.length*initial.state[0].length;
-		t = Math.min(Integer.MAX_VALUE , factorial(board_size)); //upper bound on the depth of the solution
+		t = Math.min(Double.MAX_VALUE , factorial(board_size)); //upper bound on the depth of the solution
 		st.push(initial);
 		hash.put(initial.to_string(), initial);	
 		while(!(st.empty())) {		
@@ -50,9 +50,11 @@ public class DFBnB {
 			            
 					}else if(hash.containsKey(g.to_string()) && (hash.get(g.to_string()).out == true)) {
 						op.remove(i);
+						i--;
 					}else if(hash.containsKey(g.to_string()) && (hash.get(g.to_string()).out == false)) {
 						if(hash.get(g.to_string()).f <= g.f) {
 							op.remove(i);
+							i--;
 						}else {
 							st.remove(hash.get(g.to_string()));
 							hash.remove(g.to_string());
@@ -63,13 +65,11 @@ public class DFBnB {
 						cost = 0;
 						g.out = true;
 						st.push(g);
-						hash.put(g.to_string() , g);
 						Stack<Node> tmp = new Stack<Node>();
 
 						while (!st.empty()) { //save the past to this current goal node.
 							Node node = st.pop();
 							tmp.push(node);
-							//hash.remove(node.to_string()); //???
 							if(node.out) {
 								path.add(0,node.direction);
 								cost += node.cost;
