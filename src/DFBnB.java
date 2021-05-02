@@ -46,8 +46,8 @@ public class DFBnB {
 				for(int i = 0; i < op.size() ; i++) {
 					Node g = op.get(i);
 					if(g.f >= t) {
-			            op.subList(i, op.size()).clear();
-			            
+						op.subList(i, op.size()).clear();
+
 					}else if(hash.containsKey(g.to_string()) && (hash.get(g.to_string()).out == true)) {
 						op.remove(i);
 						i--;
@@ -79,7 +79,7 @@ public class DFBnB {
 							st.push(tmp.pop()); // put the elements back in the stack
 						}
 						st.pop().out=false;; // remove g from stack
-			            op.subList(i, op.size()).clear();
+						op.subList(i, op.size()).clear();
 
 					}
 				}
@@ -89,7 +89,7 @@ public class DFBnB {
 					hash.put(in.to_string() , in);
 				}
 			}
-			
+
 		}
 		long end = System.currentTimeMillis() ;
 		time = (double)(end - start) / 1000;

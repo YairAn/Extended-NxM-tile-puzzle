@@ -25,7 +25,6 @@ public class IDA_star {
 		t = Support.h(initial, goal, num_empty_tiles);
 		Node n  = new Node(initial);
 		while(t != Integer.MAX_VALUE) {
-			System.out.println("t start : " + t);
 			double min_f = Integer.MAX_VALUE;
 			initial.out = false;
 			hash.clear();
@@ -33,28 +32,18 @@ public class IDA_star {
 			st.push(initial);
 			hash.put(initial.to_string(), initial);
 			while(!st.empty()) {
-				//System.out.println("while loop");
-				//System.out.println(st.peek().to_string());
-				//System.out.println(st.peek().out);
-
 			    n = st.pop();
 				if(n.out) {
 					hash.remove(n.to_string());
 				}else{
-					System.out.println("in the else");
 					n.out = true;
 					st.push(n);
 					ArrayList<Node> op = Support.make_operators(n);
 					num_node_generated += op.size();
-				    System.out.println("****************");
-					System.out.println(op.size());
 					for(Node g : op) {
 						double f = g.distance + (Support.h(g, goal, num_empty_tiles));
-						System.out.println("f: " +f);
-						System.out.println("t: "+t);
 						if(f > t) {
 							min_f = Math.min(min_f , f);
-							//System.out.println("min f : " +min_f);
 							continue;
 						}
 						if(hash.containsKey(g.to_string()) && (hash.get(g.to_string()).out == true)) {
@@ -71,7 +60,6 @@ public class IDA_star {
 							}
 						}
 						if(g.equals(goal)) {
-							System.out.println("im here");
                             g.out = true;
                             st.push(g);
 							while (!st.empty()) {
@@ -88,15 +76,11 @@ public class IDA_star {
 						}					
 						st.push(g);
 						hash.put(g.to_string(), g);	
-						//System.out.println("push");
-						//System.out.println(st.toString());
+						
 					}
 				}
 			}
 			t = min_f;
-			//n.out = false;
-			//st.clear(); // maybe no need???
-			System.out.println("t end : " +t);
 		}
 		long end = System.currentTimeMillis() ;
 		time = (double)(end - start) / 1000;

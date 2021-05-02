@@ -234,7 +234,7 @@ public class Support {
 			}
 		}
 		double factor = 5;
-		if(t == 2) factor = 3.6;//Uses a weighted average in case of two empty tiles
+		if(t == 2) factor = 3.6; //Uses a weighted average in case of two empty tiles
 		return (dist*factor);
 	}
 
@@ -249,10 +249,4 @@ public class Support {
 		return copy;
 	}
 }
-//if(empty == 0 && t==2) {
-//val = rows*colls-1;
-//empty++;
-//}else {
-// val = rows*colls;
-//}  
-// 					int d = Math.abs(i - ((val-1)/colls)) + Math.abs(j - ((val-1)%colls));
+

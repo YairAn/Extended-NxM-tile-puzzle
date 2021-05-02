@@ -32,9 +32,10 @@ public class A_star {
 		long start = System.currentTimeMillis();
 		q.add(initial);
 		hash_open.put(initial.to_string(), initial);
+		int iteration = 0;
 		while(!q.isEmpty()) {
 			if(with_open) {
-				System.out.println("********* open list in the iteration:*********");
+				System.out.println("********* open list in iteration number " + (++iteration) + ":*********");
 				Iterator<String> itr = hash_open.keySet().iterator();		 
 				while(itr.hasNext()){
 					System.out.println(itr.next());

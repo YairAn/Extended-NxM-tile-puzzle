@@ -173,58 +173,9 @@ public class Ex1 {
 			}
 			break;
 		default:
-			ArrayList<Integer> sss = new ArrayList<>();
-			sss.add(2);
-			sss.add(3);
-			sss.add(4);
-			sss.add(5);
-			sss.add(6);
-			sss.add(7);
-			sss.add(8);
-			sss.add(9);
-            sss.subList(3, sss.size()).clear();
-            for(int i : sss) {
-            	System.out.println(i);
-            }
-			
-
+	
 			System.out.println("no match");
 		}
-
-
-
-
-
-
-
-		/*
-		System.out.println(Support.is_state_equals(initial,goaln));
-		System.out.println(Support.h(initial,goaln,num_empty_tiles));
-		ArrayList<Node> operators = new ArrayList<>();
-		operators = Support.make_operators(initial);
-		String[][] mmm;
-		for (int k = 0; k < operators.size(); k++) {
-			System.out.println(operators.get(k).to_string());
-		}
-
-
-
-						for(int i = 0 ; i < rows_num ; i++) {
-							for(int j = 0 ; j < colls_num ; j++) {
-								System.out.print(start[i][j] + " ");
-							}
-							System.out.println();
-						}
-						System.out.println();
-
-						for(int i = 0 ; i < rows_num ; i++) {
-							for(int j = 0 ; j < colls_num ; j++) {
-								System.out.print(goal[i][j] + " ");
-							}
-							System.out.println();
-						} 
-		 */
-
 	}
 }
 
