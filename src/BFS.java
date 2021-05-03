@@ -13,7 +13,7 @@ public class BFS {
 	Hashtable<String, Node> hash_close = new Hashtable<>();
 	Hashtable<String, Node> hash_open = new Hashtable<>();
 	ArrayList<String> path = new ArrayList<>();
-	int num_node_generated = 0;
+	int num_node_generated = 1;
 	double time  = 0.0;
 	int cost = 0;
 	boolean with_open;
@@ -42,8 +42,8 @@ public class BFS {
 			hash_open.remove(n.to_string());
 			hash_close.put(n.to_string(), n);
 			ArrayList<Node> op = Support.make_operators(n);
-			num_node_generated += op.size();
 			for(Node g : op) {
+				num_node_generated ++;
 				if(!(hash_open.containsKey(g.to_string())) && !(hash_close.containsKey(g.to_string()))) {
 					if(g.equals(goal)) {
 						while(g.parent != null) {

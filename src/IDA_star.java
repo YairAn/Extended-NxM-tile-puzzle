@@ -9,7 +9,7 @@ public class IDA_star {
 	Hashtable<String, Node> hash = new Hashtable<>();
 	Stack<Node> st = new Stack<Node>();
 	ArrayList<String> path = new ArrayList<>();
-	int num_node_generated = 0;
+	int num_node_generated = 1;
 	double time  = 0.0;
 	int cost = 0;
 	double t;
@@ -39,8 +39,8 @@ public class IDA_star {
 					n.out = true;
 					st.push(n);
 					ArrayList<Node> op = Support.make_operators(n);
-					num_node_generated += op.size();
 					for(Node g : op) {
+						num_node_generated ++;
 						double f = g.distance + (Support.h(g, goal, num_empty_tiles));
 						if(f > t) {
 							min_f = Math.min(min_f , f);

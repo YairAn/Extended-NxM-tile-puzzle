@@ -1,8 +1,12 @@
 import java.lang.Thread.State;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Hashtable;
 import java.util.List;
+
+import javax.swing.text.Position;
 public class Support {
+	static int c = 0;
 
 	public static ArrayList<Node> make_operators(Node node) {
 		ArrayList<Node> operators = new ArrayList<>();
@@ -165,79 +169,219 @@ public class Support {
 		return b;
 	}
 
-	//Haming distance heuristic function	
-	public static int h2(Node st,Node goal,int t) {
-
-		int dist = 0;
-		int rows = st.state.length;
-		int colls = st.state[0].length;
-		String[] s = new String[rows*colls];
-		for(int i = 0; i < st.state.length; i++) {
-			String[] row = st.state[i];
-			for(int j = 0; j < row.length; j++) {
-				String number = st.state[i][j];
-				s[i*row.length+j] = number;
-			}
-		}
-		for(int i = 0; i < s.length-t ;i++) {
-			if(s[i].equals("_")) {
-				dist++;
-			}else {
-				if(Integer.parseInt(s[i]) != (i+1))
-					dist++; 	   
-			}
-		}
-		//		for(int i = 1; i <= t ;i++) {
-		//
-		//			if(!(s[s.length-i].equals("_"))) dist++;
-		//		}
-		return dist*5;
-	}
-
-
 
 	// Manhattan distance heuristic function
-	public static double h(Node st,Node goal,int t) { 
-
-		int dist = 0;
-		int rows = st.state.length;
-		int colls = st.state[0].length;
-		Hashtable<Integer,int[]> position = new Hashtable<>();
-		for(int i = 0 ; i < rows ; i++) {
-			for(int j = 0 ; j < colls ; j++) {
-				String str = goal.state[i][j];
-				if(str.equals("_")) {
-					continue;
-				}else{
-					int key = Integer.parseInt(str);
-					int[] pos = {i,j};
-					position.put(key, pos);				 
-				} 
-			}
-		}
-		for(int i = 0 ; i < rows ; i++) {
-			for(int j = 0 ; j < colls ; j++) {
-				String str = st.state[i][j];	
-				int val;
-				if(str.equals("_")) {
-					continue;
-				}else{
-					val = Integer.parseInt(str);
-				} 
-				if(!st.state[i][j].equals(goal.state[i][j])) {
-					int goal_i = position.get(val)[0];
-					int goal_j = position.get(val)[1];
-					int d = Math.abs(i - goal_i) + Math.abs(j - goal_j);
-					dist+=d;
+		public static double h(Node st,Node goal,int t) { 
+	
+			int dist = 0;
+			int rows = st.state.length;
+			int colls = st.state[0].length;
+			Hashtable<Integer,int[]> position = new Hashtable<>();
+			for(int i = 0 ; i < rows ; i++) {
+				for(int j = 0 ; j < colls ; j++) {
+					String str = goal.state[i][j];
+					if(str.equals("_")) {
+						continue;
+					}else{
+						int key = Integer.parseInt(str);
+						int[] pos = {i,j};
+						position.put(key, pos);				 
+					} 
 				}
-
 			}
+			for(int i = 0 ; i < rows ; i++) {
+				for(int j = 0 ; j < colls ; j++) {
+					String str = st.state[i][j];	
+					int val;
+					if(str.equals("_")) {
+						continue;
+					}else{
+						val = Integer.parseInt(str);
+					} 
+					if(!st.state[i][j].equals(goal.state[i][j])) {
+						int goal_i = position.get(val)[0];
+						int goal_j = position.get(val)[1];
+						int d = Math.abs(i - goal_i) + Math.abs(j - goal_j);
+						dist+=d;
+					}
+	
+				}
+			}
+			double factor = 5;
+			if(t == 2) factor = 3.6; //Uses a weighted average in case of two empty tiles
+			return (dist*factor);
 		}
-		double factor = 5;
-		if(t == 2) factor = 3.6; //Uses a weighted average in case of two empty tiles
-		return (dist*factor);
+
+	// Manhattan distance heuristic function
+//	public static double h(Node st,Node goal,int t) { 
+//
+//		int dist = 0;
+//		int rows = st.state.length;
+//		int colls = st.state[0].length;
+//		Hashtable<Integer,int[]> position = new Hashtable<>();
+//		for(int i = 0 ; i < rows ; i++) {
+//			for(int j = 0 ; j < colls ; j++) {
+//				String str = goal.state[i][j];
+//				if(str.equals("_")) {
+//					continue;
+//				}else{
+//					int key = Integer.parseInt(str);
+//					int[] pos = {i,j};
+//					position.put(key, pos);				 
+//				} 
+//			}
+//		}
+//		for(int i = 0 ; i < rows ; i++) {
+//			for(int j = 0 ; j < colls ; j++) {
+//				String str = st.state[i][j];	
+//				int val;
+//				if(str.equals("_")) {
+//					continue;
+//				}else{
+//					val = Integer.parseInt(str);
+//				} 
+//				if(!(st.state[i][j].equals(goal.state[i][j]))) {
+//					
+//					System.out.println("***" + i  + " " + j + "***");
+//					System.out.println(st.state[i][j]);
+//					
+//					int goal_i = position.get(val)[0];
+//					int goal_j = position.get(val)[1];
+//					int d = Math.abs(i - goal_i) + Math.abs(j - goal_j);
+//					dist+=d;
+//					List<List<String>> list = new ArrayList<>();
+//					if(i <= goal_i && j <= goal_j) {
+//						list = printMatrixPaths(st.state, i,  j, goal_i, goal_j);
+//					}else if(i >= goal_i && j >= goal_j) {
+//						list = printMatrixPaths(st.state,  goal_i, goal_j,i,  j);
+//					}else if(i <= goal_i && j >= goal_j) {
+//						list = printMatrixPaths2(st.state,  goal_i, goal_j,i,  j);
+//					}else if(i >= goal_i && j <= goal_j) {
+//						list = printMatrixPaths2(st.state, i,  j, goal_i, goal_j);
+//
+//					}
+//					int no_move = 0;
+//					for(List<String> l : list ) {
+//						int tmp = 0;
+//						
+//						System.out.println(l);
+//						
+//						for(String s : l) {
+//							if(s.equals("_"))
+//							tmp++;
+//						}
+//						if(tmp > no_move) {
+//							no_move = tmp;
+//						}
+//						if(l.size() == 0) {
+//							no_move = d;
+//						}
+//					}
+//					
+//						System.out.println( "d " +d);
+//						System.out.println(no_move);
+//						
+//					dist += (d-no_move);
+//				}				
+//			}
+//		}
+//		
+//		double factor = 5;
+//		if(t == 2) factor = 3.6; //Uses a weighted average in case of two empty tiles
+//		return (dist*factor);
+//	}
+
+
+	public static List<List<String>> printMatrixPaths(String [][] matrix,int i, int j,int g_i,int g_j)
+	{
+		List<List<String>> list = new ArrayList<>();
+		matrixPathsHelper(list, new ArrayList<String>(), matrix, i,j,g_i,g_j);
+		return list;
 	}
 
+	private static void matrixPathsHelper(List<List<String>> list , List<String> paths, String [][] matrix, int row,int column,int g_i,int g_j){
+
+		// base case
+		if(row==g_i)
+		{
+			ArrayList<String> pathsTemp=new ArrayList<>(paths);
+			for (int i = column; i <= g_i; i++) {
+				pathsTemp.add(matrix[row][i]);
+			}
+			list.add(pathsTemp);
+			return;
+		}
+
+		// base case
+		if(column==g_j)
+		{
+			ArrayList<String> pathsTemp=new ArrayList<>(paths);
+			for (int i = row; i <= g_j; i++) {
+				pathsTemp.add(matrix[i][column]);
+			}
+			list.add(pathsTemp);
+			return;
+		}
+
+		// Add to list
+		paths.add(matrix[row][column]);
+
+		// Explore
+		// go down
+		matrixPathsHelper(list, paths, matrix,row+1,column,g_i,g_j);
+
+		// go right
+		matrixPathsHelper(list, paths, matrix,row,column+1,g_i,g_j);
+
+		// Remove from list : backtrack
+		paths.remove(paths.size() - 1);
+
+	}
+	public static List<List<String>> printMatrixPaths2(String [][] matrix,int i, int j,int g_i,int g_j)
+	{
+		List<List<String>> list = new ArrayList<>();
+		matrixPathsHelper2(list, new ArrayList<String>(), matrix, i,j,g_i,g_j);
+		return list;
+	}
+
+	private static void matrixPathsHelper2(List<List<String>> list , List<String> paths, String [][] matrix, int row,int column,int g_i,int g_j){
+
+		// base case
+		if(row==g_i)
+		{
+			ArrayList<String> pathsTemp=new ArrayList<>(paths);
+			for (int i = column; i <= g_j; i++) {
+				pathsTemp.add(matrix[row][i]);
+			}
+			list.add(pathsTemp);
+			return;
+		}
+
+		// base case
+		if(column==g_j)
+		{
+			ArrayList<String> pathsTemp=new ArrayList<>(paths);
+			for (int i = row; i >= g_i ; i--) {
+				pathsTemp.add(matrix[i][column]);
+			}
+			list.add(pathsTemp);
+			return;
+		}
+
+		// Add to list
+		paths.add(matrix[row][column]);
+
+		// Explore
+		// go up
+		matrixPathsHelper2(list, paths, matrix,row-1,column,g_i,g_j);
+
+		// go right
+		matrixPathsHelper2(list, paths, matrix,row,column+1,g_i,g_j);
+
+		// Remove from list : backtrack
+		paths.remove(paths.size() - 1);
+
+	}
 
 	public static String[][] copy(String[][] s){
 		String[][] copy = new String[s.length][s[0].length];

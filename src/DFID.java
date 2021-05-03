@@ -11,7 +11,7 @@ public class DFID {
 	Node goal;
 	Hashtable<String, Node> hash = new Hashtable<>();
 	ArrayList<String> path = new ArrayList<>();
-	int num_node_generated = 0;
+	int num_node_generated = 1;
 	double time  = 0.0;
 	int cost = 0;
 
@@ -52,8 +52,8 @@ public class DFID {
 			hash.put(node.to_string(),node);
 			is_cutoff = false;
 			ArrayList<Node> op = Support.make_operators(node);
-			num_node_generated += op.size();
 			for(Node g : op) {
+				num_node_generated++;
 				if(hash.containsKey(g.to_string())) continue;
 				result = limited_dfs(g, goal, depth-1);     //Recursion call
 				if(result.equals("cutoff")) {

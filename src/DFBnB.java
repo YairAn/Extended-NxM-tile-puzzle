@@ -11,7 +11,7 @@ public class DFBnB {
 	Hashtable<String, Node> hash = new Hashtable<>();
 	Stack<Node> st = new Stack<Node>();
 	ArrayList<String> path = new ArrayList<>();
-	int num_node_generated = 0;
+	int num_node_generated = 1;
 	double time  = 0.0;
 	int cost = 0;
 	double t;
