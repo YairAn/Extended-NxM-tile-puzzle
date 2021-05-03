@@ -170,8 +170,8 @@ public class Support {
 	}
 
 
-	// Manhattan distance heuristic function
-		public static double h(Node st,Node goal,int t) { 
+	// Manhattan distance heuristic function - not used right now
+		public static double h2(Node st,Node goal,int t) { 
 	
 			int dist = 0;
 			int rows = st.state.length;
@@ -212,139 +212,88 @@ public class Support {
 			return (dist*factor);
 		}
 
-	// Manhattan distance heuristic function
-//	public static double h(Node st,Node goal,int t) { 
-//
-//		int dist = 0;
-//		int rows = st.state.length;
-//		int colls = st.state[0].length;
-//		Hashtable<Integer,int[]> position = new Hashtable<>();
-//		for(int i = 0 ; i < rows ; i++) {
-//			for(int j = 0 ; j < colls ; j++) {
-//				String str = goal.state[i][j];
-//				if(str.equals("_")) {
-//					continue;
-//				}else{
-//					int key = Integer.parseInt(str);
-//					int[] pos = {i,j};
-//					position.put(key, pos);				 
-//				} 
-//			}
-//		}
-//		for(int i = 0 ; i < rows ; i++) {
-//			for(int j = 0 ; j < colls ; j++) {
-//				String str = st.state[i][j];	
-//				int val;
-//				if(str.equals("_")) {
-//					continue;
-//				}else{
-//					val = Integer.parseInt(str);
-//				} 
-//				if(!(st.state[i][j].equals(goal.state[i][j]))) {
-//					
-//					System.out.println("***" + i  + " " + j + "***");
-//					System.out.println(st.state[i][j]);
-//					
-//					int goal_i = position.get(val)[0];
-//					int goal_j = position.get(val)[1];
-//					int d = Math.abs(i - goal_i) + Math.abs(j - goal_j);
-//					dist+=d;
-//					List<List<String>> list = new ArrayList<>();
-//					if(i <= goal_i && j <= goal_j) {
-//						list = printMatrixPaths(st.state, i,  j, goal_i, goal_j);
-//					}else if(i >= goal_i && j >= goal_j) {
-//						list = printMatrixPaths(st.state,  goal_i, goal_j,i,  j);
-//					}else if(i <= goal_i && j >= goal_j) {
-//						list = printMatrixPaths2(st.state,  goal_i, goal_j,i,  j);
-//					}else if(i >= goal_i && j <= goal_j) {
-//						list = printMatrixPaths2(st.state, i,  j, goal_i, goal_j);
-//
-//					}
-//					int no_move = 0;
-//					for(List<String> l : list ) {
-//						int tmp = 0;
-//						
-//						System.out.println(l);
-//						
-//						for(String s : l) {
-//							if(s.equals("_"))
-//							tmp++;
-//						}
-//						if(tmp > no_move) {
-//							no_move = tmp;
-//						}
-//						if(l.size() == 0) {
-//							no_move = d;
-//						}
-//					}
-//					
-//						System.out.println( "d " +d);
-//						System.out.println(no_move);
-//						
-//					dist += (d-no_move);
-//				}				
-//			}
-//		}
-//		
-//		double factor = 5;
-//		if(t == 2) factor = 3.6; //Uses a weighted average in case of two empty tiles
-//		return (dist*factor);
-//	}
+	//based on Manhattan distance heuristic function with addition
+	public static double h(Node st,Node goal,int t) { 
 
-
-	public static List<List<String>> printMatrixPaths(String [][] matrix,int i, int j,int g_i,int g_j)
-	{
-		List<List<String>> list = new ArrayList<>();
-		matrixPathsHelper(list, new ArrayList<String>(), matrix, i,j,g_i,g_j);
-		return list;
-	}
-
-	private static void matrixPathsHelper(List<List<String>> list , List<String> paths, String [][] matrix, int row,int column,int g_i,int g_j){
-
-		// base case
-		if(row==g_i)
-		{
-			ArrayList<String> pathsTemp=new ArrayList<>(paths);
-			for (int i = column; i <= g_i; i++) {
-				pathsTemp.add(matrix[row][i]);
+		int dist = 0;
+		int rows = st.state.length;
+		int colls = st.state[0].length;
+		Hashtable<Integer,int[]> position = new Hashtable<>();
+		for(int i = 0 ; i < rows ; i++) {
+			for(int j = 0 ; j < colls ; j++) {
+				String str = goal.state[i][j];
+				if(str.equals("_")) {
+					continue;
+				}else{
+					int key = Integer.parseInt(str);
+					int[] pos = {i,j};
+					position.put(key, pos);				 
+				} 
 			}
-			list.add(pathsTemp);
-			return;
+		}
+		for(int i = 0 ; i < rows ; i++) {
+			for(int j = 0 ; j < colls ; j++) {
+				String str = st.state[i][j];	
+				int val;
+				if(str.equals("_")) {
+					continue;
+				}else{
+					val = Integer.parseInt(str);
+				} 
+				if(!(st.state[i][j].equals(goal.state[i][j]))) {
+					int goal_i = position.get(val)[0];
+					int goal_j = position.get(val)[1];
+					int d = Math.abs(i - goal_i) + Math.abs(j - goal_j);
+					dist+=d;
+					//the addition
+					List<List<String>> list = new ArrayList<>();
+					if(i <= goal_i && j <= goal_j) {
+						list = find_all_Paths(st.state, i,  j, goal_i, goal_j,1);
+					}else if(i >= goal_i && j >= goal_j) {
+						list = find_all_Paths(st.state,  goal_i, goal_j,i,  j,1);
+					}else if(i <= goal_i && j >= goal_j) {
+						list = find_all_Paths(st.state,  goal_i, goal_j,i,  j,-1);
+					}else if(i >= goal_i && j <= goal_j) {
+						list = find_all_Paths(st.state, i,  j, goal_i, goal_j,-1);
+
+					}
+					int no_move = 0;
+					for(List<String> l : list ) {
+						int tmp = 0;
+						for(String s : l) {
+							if(s.equals("_"))
+								tmp++;
+						}
+						if(tmp > no_move) {
+							no_move = tmp;
+						}
+						if(l.size() == 0) {
+							no_move = d;
+						}
+					}
+					dist += (d-no_move);
+				}				
+			}
 		}
 
-		// base case
-		if(column==g_j)
-		{
-			ArrayList<String> pathsTemp=new ArrayList<>(paths);
-			for (int i = row; i <= g_j; i++) {
-				pathsTemp.add(matrix[i][column]);
-			}
-			list.add(pathsTemp);
-			return;
-		}
-
-		// Add to list
-		paths.add(matrix[row][column]);
-
-		// Explore
-		// go down
-		matrixPathsHelper(list, paths, matrix,row+1,column,g_i,g_j);
-
-		// go right
-		matrixPathsHelper(list, paths, matrix,row,column+1,g_i,g_j);
-
-		// Remove from list : backtrack
-		paths.remove(paths.size() - 1);
-
+		double factor = 5;
+		if(t == 2) factor = 3; //the lower bound of each tile cost to move one step
+		return (dist*factor);
 	}
-	public static List<List<String>> printMatrixPaths2(String [][] matrix,int i, int j,int g_i,int g_j)
+
+
+	public static List<List<String>> find_all_Paths(String [][] matrix,int i, int j,int g_i,int g_j,int mull)
 	{
 		List<List<String>> list = new ArrayList<>();
-		matrixPathsHelper2(list, new ArrayList<String>(), matrix, i,j,g_i,g_j);
+		matrixPathsHelper(list, new ArrayList<String>(), matrix, i,j,g_i,g_j,mull);
 		return list;
 	}
-
-	private static void matrixPathsHelper2(List<List<String>> list , List<String> paths, String [][] matrix, int row,int column,int g_i,int g_j){
+    
+	//find all the paths from a given point to a goal point
+	//the mull (as mulltiply) param is use to determine if to go up or down on the "i" scale -> 1 or -1
+	//
+	private static void matrixPathsHelper(List<List<String>> list , List<String> paths, String [][] matrix,
+			int row,int column,int g_i,int g_j,int mull){
 
 		// base case
 		if(row==g_i)
@@ -356,33 +305,40 @@ public class Support {
 			list.add(pathsTemp);
 			return;
 		}
-
 		// base case
 		if(column==g_j)
-		{
+		{   
 			ArrayList<String> pathsTemp=new ArrayList<>(paths);
-			for (int i = row; i >= g_i ; i--) {
-				pathsTemp.add(matrix[i][column]);
+			if(mull == -1) {
+				for (int i = row; i >= g_i ; i--) {
+					pathsTemp.add(matrix[i][column]);
+				}
+				list.add(pathsTemp);
+				return;
+			} else {
+				for (int i = row; i <= g_i; i++) {
+					pathsTemp.add(matrix[i][column]);
+				}
+				list.add(pathsTemp);
+				return;
 			}
-			list.add(pathsTemp);
-			return;
 		}
-
 		// Add to list
 		paths.add(matrix[row][column]);
 
 		// Explore
-		// go up
-		matrixPathsHelper2(list, paths, matrix,row-1,column,g_i,g_j);
+		// go down
+		matrixPathsHelper(list, paths, matrix,row+(1*mull),column,g_i,g_j,mull);
 
 		// go right
-		matrixPathsHelper2(list, paths, matrix,row,column+1,g_i,g_j);
+		matrixPathsHelper(list, paths, matrix,row,column+1,g_i,g_j,mull);
 
 		// Remove from list : backtrack
 		paths.remove(paths.size() - 1);
-
 	}
-
+    
+	
+	//deep copy of a matrix of strings
 	public static String[][] copy(String[][] s){
 		String[][] copy = new String[s.length][s[0].length];
 		for(int i = 0 ; i < s.length ; i++) {
