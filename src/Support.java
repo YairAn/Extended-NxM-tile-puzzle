@@ -7,18 +7,23 @@ import java.util.List;
 import javax.swing.text.Position;
 public class Support {
 
-	public static ArrayList<Node> make_operators(Node node) {
-		ArrayList<Node> operators = new ArrayList<>();
-		String[][] s = copy(node.state);
+	public static Node make_operators(Node node,int order) {
+		//ArrayList<Node> operators = new ArrayList<>();
+		String[][] s = node.state;
 		String[][] create;
 		Node n;
-
+		boolean next = false;
+		if(order > 8) next = true;
+		int once = 0;
 		for (int i = 0; i < s.length; i++) {
 			for (int j = 0; j < s[0].length; j++) {
 				if(s[i][j].equals("_")) {
+					once++;
+					if(next == true && once == 1) {
+						continue;
+					}
 					if(i < s.length-1 && s[i+1][j].equals("_")) {		//move two vertical	
-
-						if(j < s[0].length-1) {      //move left
+						if(j < s[0].length-1 && (order == 1)) {      //move left
 							create = copy(s);
 							String direction = create[i][j+1] + "&" + create[i+1][j+1] + "L";
 							create[i][j] = create[i][j+1];
@@ -28,12 +33,12 @@ public class Support {
 							n = new Node(create,node,6,direction,(node.distance+6));
 							n.when_burn = Node.burn;
 							if(node.parent == null) {								
-								operators.add(n);
+								return n;
 							}else if(!is_state_equals(n, node.parent)) {						
-								operators.add(n);
+								return n;
 							}
 						}
-						if(j > 0) {               //move right
+						if(j > 0 && (order == 2 )) {               //move right
 							create = copy(s);
 							String direction = create[i][j-1] + "&" + create[i+1][j-1] + "R";
 							create[i][j] = create[i][j-1];
@@ -43,14 +48,14 @@ public class Support {
 							n = new Node(create,node,6,direction,(node.distance+6));
 							n.when_burn = Node.burn;
 							if(node.parent == null) {								
-								operators.add(n);
+								return n;
 							}else if(!is_state_equals(n, node.parent)) {						
-								operators.add(n);
-							}
+								return n;
+							}	
 						}
 					}
 					if(j < s[0].length-1 && s[i][j+1].equals("_")) { //move two horizontal
-						if(i < s.length-1) {      //move up
+						if(i < s.length-1 && (order == 3)) {      //move up
 
 							create = copy(s);
 							String direction = create[i+1][j] + "&" + create[i+1][j+1] + "U";
@@ -62,12 +67,12 @@ public class Support {
 							n = new Node(create,node,7,direction,(node.distance+7));
 							n.when_burn = Node.burn;
 							if(node.parent == null) {								
-								operators.add(n);
+								return n;
 							}else if(!is_state_equals(n, node.parent)) {						
-								operators.add(n);
-							}		
+								return n;
+							}	
 						}
-						if(i > 0) {      //move down
+						if(i > 0 && (order == 4)) {      //move down
 							create = copy(s);
 							String direction = create[i-1][j] + "&" + create[i-1][j+1] + "D";
 
@@ -79,13 +84,14 @@ public class Support {
 							n.when_burn = Node.burn;
 
 							if(node.parent == null) {								
-								operators.add(n);
+								return n;
 							}else if(!is_state_equals(n, node.parent)) {						
-								operators.add(n);
+								return n;
 							}	
+
 						}
 					}
-					if(j < s[0].length-1) {  //move one left
+					if(j < s[0].length-1 && (order == 5 || order == 9)) {  //move one left
 						create = copy(s);
 						String direction = create[i][j+1] + "L";
 						create[i][j] = create[i][j+1];
@@ -95,12 +101,13 @@ public class Support {
 						boolean b = true;
 						if(node.parent!= null && create[i][j].equals(node.parent.state[i][j])) { b = false;}
 						if(node.parent == null && !(create[i][j].equals("_")) && b) {								
-							operators.add(n);
-						}else if(node.parent!= null && !is_state_equals(n, node.parent) && !(create[i][j].equals("_")) && b) {						
-							operators.add(n);
-						}		
+							return n;
+						}else if(node.parent!= null && !(is_state_equals(n, node.parent)) && !(create[i][j].equals("_")) && b) {						
+							return n;
+						}
+
 					}
-					if(i < s.length-1) {      //move one up
+					if(i < s.length-1 && (order == 6 || order == 10)) {      //move one up
 
 						create = copy(s);
 						String direction = create[i+1][j] + "U";
@@ -112,12 +119,13 @@ public class Support {
 						boolean b = true;
 						if(node.parent!= null && create[i][j].equals(node.parent.state[i][j])) { b = false;}
 						if(node.parent == null && !(create[i][j].equals("_")) && b) {								
-							operators.add(n);
+							return n;
 						}else if(node.parent!= null && !is_state_equals(n, node.parent) && !(create[i][j].equals("_")) && b) {						
-							operators.add(n);
-						}	
+							return n;
+						}
+
 					}
-					if(j > 0) {               //move one right
+					if(j > 0 && (order == 7 || order == 11)) {               //move one right
 						create = copy(s);
 						String direction = create[i][j-1] + "R";
 
@@ -128,12 +136,14 @@ public class Support {
 						boolean b = true;
 						if(node.parent!= null && create[i][j].equals(node.parent.state[i][j])) { b = false;}
 						if(node.parent == null && !(create[i][j].equals("_")) && b) {								
-							operators.add(n);
+							return n;
 						}else if(node.parent!= null && !is_state_equals(n, node.parent) && !(create[i][j].equals("_")) && b) {						
-							operators.add(n);
-						}				
+							return n;
+						}
+
 					}
-					if(i > 0) {            //move one down
+					
+					if(i > 0 && (order == 8 || order == 12)) {            //move one down
 						create = copy(s);
 						String direction = create[i-1][j] + "D";
 						create[i][j] = create[i-1][j];
@@ -143,16 +153,16 @@ public class Support {
 						boolean b = true;
 						if(node.parent!= null && create[i][j].equals(node.parent.state[i][j])) { b = false;}
 						if(node.parent == null && !(create[i][j].equals("_")) && b) {								
-							operators.add(n);
+							return n;
 						}else if(node.parent!= null && !is_state_equals(n, node.parent) && !(create[i][j].equals("_")) && b) {						
-							operators.add(n);
-						}	
+							return n;
+						}
 					}
+					return null;
 				}
 			}
 		}
-		return operators;
-
+		return null;
 	}
 	//checks if two matrix are the same
 	public static boolean is_state_equals(Node st,Node goal) {
@@ -202,7 +212,7 @@ public class Support {
 					int goal_j = position.get(val)[1];
 					int d = Math.abs(i - goal_i) + Math.abs(j - goal_j);
 					dist+=d;
-					
+
 				}
 
 			}
@@ -246,31 +256,31 @@ public class Support {
 					int d = Math.abs(i - goal_i) + Math.abs(j - goal_j);
 					dist+=d;
 					//the addition
-						List<List<String>> list = new ArrayList<>();
-						if(i <= goal_i && j <= goal_j) {       //the goal is down and right
-							list = find_all_Paths(st.state, i,  j, goal_i, goal_j,1);
-						}else if(i >= goal_i && j >= goal_j) { //the goal is up and left
-							list = find_all_Paths(st.state,  goal_i, goal_j,i,  j,1);
-						}else if(i <= goal_i && j >= goal_j) { //the goal is down and left
-							list = find_all_Paths(st.state,  goal_i, goal_j,i,  j,-1);
-						}else if(i >= goal_i && j <= goal_j) { //the goal is up and right
-							list = find_all_Paths(st.state, i,  j, goal_i, goal_j,-1);
+					List<List<String>> list = new ArrayList<>();
+					if(i <= goal_i && j <= goal_j) {       //the goal is down and right
+						list = find_all_Paths(st.state, i,  j, goal_i, goal_j,1);
+					}else if(i >= goal_i && j >= goal_j) { //the goal is up and left
+						list = find_all_Paths(st.state,  goal_i, goal_j,i,  j,1);
+					}else if(i <= goal_i && j >= goal_j) { //the goal is down and left
+						list = find_all_Paths(st.state,  goal_i, goal_j,i,  j,-1);
+					}else if(i >= goal_i && j <= goal_j) { //the goal is up and right
+						list = find_all_Paths(st.state, i,  j, goal_i, goal_j,-1);
+					}
+					int no_move = 0;
+					for(List<String> l : list ) {
+						int tmp = 0;
+						for(String s : l) {
+							if(s.equals("_"))
+								tmp++;
 						}
-						int no_move = 0;
-						for(List<String> l : list ) {
-							int tmp = 0;
-							for(String s : l) {
-								if(s.equals("_"))
-									tmp++;
-							}
-							if(tmp > no_move) {
-								no_move = tmp;
-							}
-							if(l.size() == 0) {
-								no_move = d;
-							}
+						if(tmp > no_move) {
+							no_move = tmp;
 						}
-						dist += (d-no_move);
+						if(l.size() == 0) {
+							no_move = d;
+						}
+					}
+					dist += (d-no_move);
 				}
 			}
 		}
@@ -287,10 +297,10 @@ public class Support {
 		matrixPathsHelper(list, new ArrayList<String>(), matrix, i,j,g_i,g_j,mull);
 		return list;
 	}
-    /*
+	/*
 	find all the paths from a given point to a goal point
 	the mull (as multiply) param is use to determine if to go up or down on the "i" scale -> 1 or -1
-	*/
+	 */
 	private static void matrixPathsHelper(List<List<String>> list , List<String> paths, String [][] matrix,
 			int row,int column,int g_i,int g_j,int mull){
 

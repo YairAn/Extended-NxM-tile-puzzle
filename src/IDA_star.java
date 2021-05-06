@@ -38,8 +38,11 @@ public class IDA_star {
 				}else{
 					n.out = true;
 					st.push(n);
-					ArrayList<Node> op = Support.make_operators(n);
-					for(Node g : op) {
+					for(int i = 1 ; i  <=  12 ; i++) {
+						Node g = Support.make_operators(n,i);
+						if(g == null) {
+							continue;
+						}
 						num_node_generated ++;
 						double f = g.distance + (Support.h(g, goal, num_empty_tiles));
 						if(f > t) {

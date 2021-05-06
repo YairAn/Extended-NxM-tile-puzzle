@@ -37,7 +37,14 @@ public class DFBnB {
 			}else{
 				n.out = true;
 				st.push(n);
-				ArrayList<Node> op = Support.make_operators(n);
+				ArrayList<Node> op = new ArrayList<>();
+				for(int i = 1 ; i  <=  12 ; i++) {
+					Node g = Support.make_operators(n,i);
+					if(g == null) {
+						continue;
+					}
+					op.add(g);
+				}
 				num_node_generated += op.size();
 				for(Node g : op) {
 					g.f = g.distance + Support.h(g, goal, num_empty_tiles);

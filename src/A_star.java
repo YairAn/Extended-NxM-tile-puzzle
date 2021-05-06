@@ -55,8 +55,11 @@ public class A_star {
 				return ;
 			}			
 			hash_close.put(n.to_string(), n);
-			ArrayList<Node> op = Support.make_operators(n);
-			for(Node g : op) {
+			for(int i = 1 ; i  <=  16 ; i++) {
+				Node g = Support.make_operators(n,i);
+				if(g == null) {
+					continue;
+				}
 				num_node_generated ++;
 				double f = g.distance + Support.h(g, goal, num_empty_tiles);
 				g.f = f;

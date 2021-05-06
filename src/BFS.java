@@ -41,8 +41,11 @@ public class BFS {
 			Node n = q.poll();
 			hash_open.remove(n.to_string());
 			hash_close.put(n.to_string(), n);
-			ArrayList<Node> op = Support.make_operators(n);
-			for(Node g : op) {
+			for(int i = 1 ; i  <=  12 ; i++) {
+				Node g = Support.make_operators(n,i);
+				if(g == null) {
+					continue;
+				}
 				num_node_generated ++;
 				if(!(hash_open.containsKey(g.to_string())) && !(hash_close.containsKey(g.to_string()))) {
 					if(g.equals(goal)) {
@@ -53,12 +56,12 @@ public class BFS {
 						}
 						long end = System.currentTimeMillis() ;
 						time = (double)(end - start) / 1000;
-						op.clear();
 						return ;
 					}
 					q.add(g);
 					hash_open.put(g.to_string(), g);
 				}
+
 			}
 		}
 		long end = System.currentTimeMillis() ;

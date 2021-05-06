@@ -23,7 +23,7 @@ public class DFID {
 	public void run_dfid() {
 		long start = System.currentTimeMillis();
 		for(int depth = 1 ; depth < Integer.MAX_VALUE ; depth++) {
-			hash.clear();
+			hash.clear();                  //equal to make new hash each iteration
 			String result  = limited_dfs(initial,goal,depth);
 			if(!(result.equals("cutoff"))) {
 				break;  
@@ -51,10 +51,15 @@ public class DFID {
 		}else {
 			hash.put(node.to_string(),node);
 			is_cutoff = false;
-			ArrayList<Node> op = Support.make_operators(node);
-			for(Node g : op) {
+			for(int i = 1 ; i  <=  12 ; i++) {
+				Node g = Support.make_operators(node,i);
+				if(g == null) {
+					continue;
+				}
 				num_node_generated++;
-				if(hash.containsKey(g.to_string())) continue;
+				if(hash.containsKey(g.to_string())) {
+					continue;
+				}
 				result = limited_dfs(g, goal, depth-1);     //Recursion call
 				if(result.equals("cutoff")) {
 					is_cutoff = true;
