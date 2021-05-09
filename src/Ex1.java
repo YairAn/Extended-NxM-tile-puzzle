@@ -79,7 +79,7 @@ public class Ex1 {
 			}
 			break;
 		case "DFID":
-			DFID d = new DFID(initial,goaln);
+			DFID d = new DFID(initial,goaln,with_open);
 			d.run_dfid();
 			//write to the output file
 			String pathd = "";
@@ -104,7 +104,6 @@ public class Ex1 {
 		case "A*":
 			A_star a = new A_star(initial,goaln,with_open,num_empty_tiles);
 			a.run_A_star();
-			//a.chek();
 			//write to the output file
 			String pathA = "";
 			if(a.path.size() == 0) {path = "no path";}
@@ -127,7 +126,7 @@ public class Ex1 {
 			break;
 
 		case "IDA*":
-			IDA_star id = new IDA_star(initial,goaln,num_empty_tiles);
+			IDA_star id = new IDA_star(initial,goaln,with_open,num_empty_tiles);
 			id.run_IDA();
 			//write to the output file
 			String pathid = "";
@@ -150,7 +149,7 @@ public class Ex1 {
 			}			
 			break;
 		case "DFBnB":
-			DFBnB df = new DFBnB(initial,goaln,num_empty_tiles);
+			DFBnB df = new DFBnB(initial,goaln,with_open,num_empty_tiles);
 			df.run_DFBnB();
 			//write to the output file
 			String pathdf = "";
@@ -173,7 +172,7 @@ public class Ex1 {
 			}
 			break;
 		default:
-	
+			
 			System.out.println("no match");
 		}
 	}

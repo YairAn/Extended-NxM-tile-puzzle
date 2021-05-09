@@ -55,7 +55,7 @@ public class A_star {
 				return ;
 			}			
 			hash_close.put(n.to_string(), n);
-			for(int i = 1 ; i  <=  16 ; i++) {
+			for(int i = 1 ; i  <=  12 ; i++) {
 				Node g = Support.make_operators(n,i);
 				if(g == null) {
 					continue;

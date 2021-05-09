@@ -34,13 +34,12 @@ public class Support {
 							n.when_burn = Node.burn;
 							if(node.parent == null) {								
 								return n;
-							}else if(!is_state_equals(n, node.parent) 
-//									&& !create[i][j].equals(node.parent.state[i][j])
-//									&& !create[i+1][j].equals(node.parent.state[i+1][j])
-									) {						
+							}else if(  !create[i][j].equals(node.parent.state[i][j])
+									&& !create[i+1][j].equals(node.parent.state[i+1][j])) {						
 								return n;
 							}
 							return null;
+							
 						}
 						if((order == 2 ) && j > 0) {               //move right
 							create = copy(s);
@@ -53,10 +52,8 @@ public class Support {
 							n.when_burn = Node.burn; 							
 							if(node.parent == null) {								
 								return n;
-							}else if(!is_state_equals(n, node.parent)
-//									&& !create[i][j].equals(node.parent.state[i][j])
-//									&& !create[i+1][j].equals(node.parent.state[i+1][j])
-									) {		 						
+							}else if(  !create[i][j].equals(node.parent.state[i][j])
+									&& !create[i+1][j].equals(node.parent.state[i+1][j])) {		 						
 								return n;
 							}
 							return null;
@@ -64,28 +61,25 @@ public class Support {
 					}
 					
 					if(j < s[0].length-1 && s[i][j+1].equals("_")) { //move two horizontal
+						
 						if( (order == 3) && i < s.length-1) {      //move up
-
 							create = copy(s);
 							String direction = create[i+1][j] + "&" + create[i+1][j+1] + "U";
-
 							create[i][j] = create[i+1][j];
 							create[i+1][j] = "_";
 							create[i][j+1] = create[i+1][j+1];
 							create[i+1][j+1] = "_";	
 							n = new Node(create,node,7,direction,(node.distance+7));
-							n.when_burn = Node.burn;
-							
+							n.when_burn = Node.burn;							
 							if(node.parent == null) {								
 								return n;
-							}else if(!is_state_equals(n, node.parent)
-//									&& !create[i][j].equals(node.parent.state[i][j])
-//									&& !create[i][j+1].equals(node.parent.state[i][j+1])
+							}else if(
+									 !create[i][j].equals(node.parent.state[i][j])
+									&& !create[i][j+1].equals(node.parent.state[i][j+1])
 									) {		 							
 								return n;
 							}
 							return null;
-
 						}
 						if( (order == 4) && i > 0 ) {      //move down
 							create = copy(s);
@@ -95,13 +89,11 @@ public class Support {
 							create[i][j+1] = create[i-1][j+1];
 							create[i-1][j+1] = "_";	
 							n = new Node(create,node,7,direction,(node.distance+7));
-							n.when_burn = Node.burn;
-							
-							if(node.parent == null) {								
+							n.when_burn = Node.burn;							
+							if(node.parent == null) {
 								return n;
-							}else if(!is_state_equals(n, node.parent)
-//									&& !create[i][j].equals(node.parent.state[i][j])
-//									&& !create[i][j+1].equals(node.parent.state[i][j+1])
+							}else if(  !create[i][j].equals(node.parent.state[i][j])
+									&& !create[i][j+1].equals(node.parent.state[i][j+1])
 									) {
 								return n;
 							}	
@@ -136,7 +128,7 @@ public class Support {
 						
 						if(node.parent == null && !(create[i][j].equals("_"))) {								
 							return n;
-						}else if(node.parent!= null && 
+						}else if(node.parent != null && 
 								!(create[i][j].equals("_")) && !create[i][j].equals(node.parent.state[i][j])) {						
 							return n;
 						}
@@ -160,7 +152,7 @@ public class Support {
 						return null;
 					}
 
-					if( (order == 8 || order == 12) && i > 0 ) {            //move one down
+					if((order == 8 || order == 12) && i > 0 ) {            //move one down
 						create = copy(s);
 						String direction = create[i-1][j] + "D";
 						create[i][j] = create[i-1][j];
@@ -176,6 +168,7 @@ public class Support {
 						}
 						return null;
 					}
+
 					return null;
 				}
 			}
@@ -237,7 +230,7 @@ public class Support {
 			}
 		}
 		double factor = 5;
-		if(t == 2) factor = 3.6; //Uses a weighted average in case of two empty tiles
+		if(t == 2) factor = 3; //Uses a weighted average in case of two empty tiles
 		return (dist*factor);
 	}
 

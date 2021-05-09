@@ -14,10 +14,12 @@ public class IDA_star {
 	int cost = 0;
 	double t;
 	int num_empty_tiles;
+	boolean with_open;
 
-	public IDA_star(Node state,Node goal1,int num) {
+	public IDA_star(Node state,Node goal1,boolean b ,int num) {
 		initial = state;
 		goal = goal1;
+		with_open = b;
 		num_empty_tiles = num;
 	}
 	public void run_IDA() {
@@ -34,6 +36,14 @@ public class IDA_star {
 			while(!st.empty()) {
 			    n = st.pop();
 				if(n.out) {
+					if(with_open) {
+						System.out.println("********* open list in iteration : *********");
+						Iterator<String> itr = hash.keySet().iterator();		 
+						while(itr.hasNext()){
+							System.out.println(itr.next());
+						}
+						System.out.println("********* end of iteration: *********\n");
+					}
 					hash.remove(n.to_string());
 				}else{
 					n.out = true;

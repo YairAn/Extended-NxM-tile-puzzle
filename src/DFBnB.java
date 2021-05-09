@@ -16,10 +16,13 @@ public class DFBnB {
 	int cost = 0;
 	double t;
 	int num_empty_tiles;
+	boolean with_open;
 
-	public DFBnB(Node state,Node goal1,int num) {
+
+	public DFBnB(Node state,Node goal1,boolean b,int num) {
 		initial = state;
 		goal = goal1;
+		with_open = b;
 		num_empty_tiles = num;
 	}
 
@@ -33,6 +36,14 @@ public class DFBnB {
 		while(!(st.empty())) {		
 			Node n = st.pop();
 			if(n.out) {
+				if(with_open) {
+					System.out.println("********* open list in iteration : *********");
+					Iterator<String> itr = hash.keySet().iterator();		 
+					while(itr.hasNext()){
+						System.out.println(itr.next());
+					}
+					System.out.println("********* end of iteration: *********\n");
+				}
 				hash.remove(n.to_string());
 			}else{
 				n.out = true;
@@ -44,8 +55,8 @@ public class DFBnB {
 						continue;
 					}
 					op.add(g);
+					num_node_generated++;				
 				}
-				num_node_generated += op.size();
 				for(Node g : op) {
 					g.f = g.distance + Support.h(g, goal, num_empty_tiles);
 				}

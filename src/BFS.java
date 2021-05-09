@@ -64,7 +64,7 @@ public class BFS {
 					q.add(g);
 					hash_open.put(g.to_string(), g);
 				}
-			}			
+			}
 		}
 		long end = System.currentTimeMillis() ;
 		time = (double)(end - start) / 1000;
