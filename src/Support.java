@@ -158,8 +158,7 @@ public class Support {
 						create[i][j] = create[i-1][j];
 						create[i-1][j] = "_";
 						n = new Node(create,node,5,direction,(node.distance+5));
-						n.when_burn = Node.burn;
-						
+						n.when_burn = Node.burn;						
 						if(node.parent == null && !(create[i][j].equals("_"))) {								
 							return n;
 						}else if(node.parent!= null && 
@@ -176,66 +175,49 @@ public class Support {
 		return null;
 	}
 	
-	//checks if two matrix are the same
-	public static boolean is_state_equals(Node st,Node goal) {
-		boolean b  = true;
-		for(int i = 0 ; i < st.state.length ; i++) {
-			for(int j = 0 ; j < st.state[0].length ; j++) {
-				if(!(st.state[i][j].equals(goal.state[i][j]))) {
-					b = false;
-					return b;
+	//deep copy of a matrix of strings
+		public static String[][] copy(String[][] s){
+			String[][] copy = new String[s.length][s[0].length];
+			for(int i = 0 ; i < s.length ; i++) {
+				for(int j = 0 ; j < s[0].length ; j++) {
+					copy[i][j] = s[i][j];
 				}
-			}		
-		}
-		return b;
-	}
-
-
-	// Manhattan distance heuristic function - not used right now
-	public static double h2(Node st,Node goal,int t) { 
-
-		int dist = 0;
-		int rows = st.state.length;
-		int colls = st.state[0].length;
-		Hashtable<Integer,int[]> position = new Hashtable<>();
-		for(int i = 0 ; i < rows ; i++) {
-			for(int j = 0 ; j < colls ; j++) {
-				String str = goal.state[i][j];
-				if(str.equals("_")) {
-					continue;
-				}else{
-					int key = Integer.parseInt(str);
-					int[] pos = {i,j};
-					position.put(key, pos);				 
-				} 
 			}
+			return copy;
 		}
+
+	// Manhattan distance heuristic function
+	public static double h(Node st,Node goal,Hashtable<Integer,int[]> position ,int t) { 
+
+		double dist = 0;
+		int rows = goal.state.length;
+		int colls = goal.state[0].length;
 		for(int i = 0 ; i < rows ; i++) {
 			for(int j = 0 ; j < colls ; j++) {
 				String str = st.state[i][j];	
 				int val;
 				if(str.equals("_")) {
 					continue;
-				}else{
-					val = Integer.parseInt(str);
-				} 
+				}
+				val = Integer.parseInt(str); 
 				if(!st.state[i][j].equals(goal.state[i][j])) {
 					int goal_i = position.get(val)[0];
 					int goal_j = position.get(val)[1];
-					int d = Math.abs(i - goal_i) + Math.abs(j - goal_j);
+					//double d = (Math.abs(i - goal_i)*3.5) + (Math.abs(j - goal_j)*3);
+					double d = (Math.abs(i - goal_i)) + (Math.abs(j - goal_j));
 					dist+=d;
-
 				}
-
 			}
 		}
-		double factor = 5;
-		if(t == 2) factor = 3; //Uses a weighted average in case of two empty tiles
+		double factor = 5;      
+		if(t == 2) factor = 3; //two tiles - the lower bound of each tile to move one step
 		return (dist*factor);
+		//return dist;
+		
 	}
 
-	//based on Manhattan distance heuristic function with addition
-	public static double h(Node st,Node goal,int t) { 
+	//based on Manhattan distance heuristic function with addition - ???? not consistent so far
+	public static double h2(Node st,Node goal,int t) { 
 
 		int dist = 0;
 		int rows = st.state.length;
@@ -288,15 +270,14 @@ public class Support {
 						if(tmp > no_move) {
 							no_move = tmp;
 						}
-						if(l.size() == 0) {
+						if(l.size() == 0) { //tile in place
 							no_move = d;
-						}
+						}						
 					}
 					dist += (d-no_move);
 				}
 			}
 		}
-
 		double factor = 5;     //one tile - all moves cost the same
 		if(t == 2) factor = 3; //two tiles - the lower bound of each tile to move one step
 		return (dist*factor);
@@ -355,15 +336,6 @@ public class Support {
 	}
 
 
-	//deep copy of a matrix of strings
-	public static String[][] copy(String[][] s){
-		String[][] copy = new String[s.length][s[0].length];
-		for(int i = 0 ; i < s.length ; i++) {
-			for(int j = 0 ; j < s[0].length ; j++) {
-				copy[i][j] = s[i][j];
-			}
-		}
-		return copy;
-	}
+	
 }
 

@@ -106,7 +106,7 @@ public class Ex1 {
 			a.run_A_star();
 			//write to the output file
 			String pathA = "";
-			if(a.path.size() == 0) {path = "no path";}
+			if(a.path.size() == 0) {pathA = "no path";}
 			else{
 				for (int i = 0; i < a.path.size(); i++) {			
 					pathA += a.path.get(i) + "-";

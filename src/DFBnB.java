@@ -29,10 +29,11 @@ public class DFBnB {
 
 	public void run_DFBnB() {
 		long start = System.currentTimeMillis();
+		Hashtable<Integer,int[]> position = get_position(goal);
 		int board_size = initial.state.length*initial.state[0].length;
 		t = Math.min(Double.MAX_VALUE , factorial(board_size)); //upper bound on the depth of the solution
 		st.push(initial);
-		hash.put(initial.to_string(), initial);	
+		hash.put(initial.to_string, initial);	
 		while(!(st.empty())) {		
 			Node n = st.pop();
 			if(n.out) {
@@ -44,7 +45,7 @@ public class DFBnB {
 					}
 					System.out.println("********* end of iteration: *********\n");
 				}
-				hash.remove(n.to_string());
+				hash.remove(n.to_string);
 			}else{
 				n.out = true;
 				st.push(n);
@@ -58,24 +59,24 @@ public class DFBnB {
 					num_node_generated++;				
 				}
 				for(Node g : op) {
-					g.f = g.distance + Support.h(g, goal, num_empty_tiles);
+					g.f = g.distance + Support.h(g, goal,position ,num_empty_tiles);
 				}
 				op.sort(new CustomComparator());
 				for(int i = 0; i < op.size() ; i++) {
 					Node g = op.get(i);
 					if(g.f >= t) {
-						op.subList(i, op.size()).clear();
+						 op.subList(i, op.size()).clear();
 
-					}else if(hash.containsKey(g.to_string()) && (hash.get(g.to_string()).out == true)) {
+					}else if(hash.containsKey(g.to_string) && (hash.get(g.to_string).out == true)) {
 						op.remove(i);
 						i--;
-					}else if(hash.containsKey(g.to_string()) && (hash.get(g.to_string()).out == false)) {
-						if(hash.get(g.to_string()).f <= g.f) {
+					}else if(hash.containsKey(g.to_string) && (hash.get(g.to_string).out == false)) {
+						if(hash.get(g.to_string).f <= g.f) {
 							op.remove(i);
 							i--;
 						}else {
-							st.remove(hash.get(g.to_string()));
-							hash.remove(g.to_string());
+							st.remove(hash.get(g.to_string));
+							hash.remove(g.to_string);
 						}
 					}else if(g.equals(goal)) {
 						t = g.f;
@@ -85,7 +86,7 @@ public class DFBnB {
 						st.push(g);
 						Stack<Node> tmp = new Stack<Node>();
 
-						while (!st.empty()) { //save the past to this current goal node.
+						while (!st.empty()) { //save the path to this current goal node.
 							Node node = st.pop();
 							tmp.push(node);
 							if(node.out) {
@@ -101,10 +102,10 @@ public class DFBnB {
 
 					}
 				}
-				for(int j = op.size()-1 ; j >= 0; j--) {//insert op to stack and hash in  a reverse order
+				for(int j = op.size()-1 ; j >= 0; j--) {//insert op to stack and hash in a reverse order
 					Node in = op.get(j);
-					st.add(in);
-					hash.put(in.to_string() , in);
+					st.push(in);
+					hash.put(in.to_string , in);
 				}
 			}
 
@@ -120,6 +121,26 @@ public class DFBnB {
 			return board_size*(factorial(board_size-1));
 	}
 
+	
+	public Hashtable<Integer,int[]> get_position(Node goal){
+		int rows = goal.state.length;
+		int colls = goal.state[0].length;
+		Hashtable<Integer,int[]> position = new Hashtable<>();
+		for(int i = 0 ; i < rows ; i++) {
+			for(int j = 0 ; j < colls ; j++) {
+				String str = goal.state[i][j];
+				if(str.equals("_")) {
+					continue;
+				}else{
+					int key = Integer.parseInt(str);
+					int[] pos = {i,j};
+					position.put(key, pos);				 
+				} 
+			}
+		}
+		return position;
+	}
+	
 	class CustomComparator implements Comparator<Node> {
 
 		@Override

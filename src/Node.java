@@ -1,6 +1,7 @@
 
 public class Node {
 	String[][] state;
+	String to_string;
 	String direction;
 	Node parent;
 	int cost;
@@ -13,6 +14,7 @@ public class Node {
 	public Node(String[][] s) {
 		state = s;
 		parent = null;
+		to_string = to_string_fun(s);
 		cost = 0;
 		direction = "";
 		distance = 0;
@@ -24,6 +26,7 @@ public class Node {
 	public Node(String[][] s,Node p,int c,String d,int dist) {
 		state = s;
 		parent = p;
+		to_string = to_string_fun(s);
 		cost = c;
 		direction = d;
 		distance = dist;
@@ -36,16 +39,17 @@ public class Node {
 		this.cost = other.cost;
 		this.direction = other.direction;
 		this.parent = other.parent;
+		this.to_string = other.to_string;
 		this.state = other.state;
 		this.out = other.out;
 		this.distance = other.distance;
 		burn++;
 	}
-	public String to_string(){
+	public String to_string_fun(String[][] s){
 		String str = "";
-		for(int i = 0 ; i < state.length ; i++) {
-			for(int j = 0 ; j < state[0].length ; j++) {
-				str += state[i][j] + " ";
+		for(int i = 0 ; i < s.length ; i++) {
+			for(int j = 0 ; j < s[0].length ; j++) {
+				str += s[i][j] + " ";
 			}
             str += "\n";
 		}

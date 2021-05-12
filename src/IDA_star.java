@@ -24,15 +24,16 @@ public class IDA_star {
 	}
 	public void run_IDA() {
 		long start = System.currentTimeMillis();
-		t = Support.h(initial, goal, num_empty_tiles);
-		Node n  = new Node(initial);
+		Hashtable<Integer,int[]> position = get_position(goal);
+		t = Support.h(initial, goal,position, num_empty_tiles);
+		Node n ;// = new Node(initial);
 		while(t != Integer.MAX_VALUE) {
 			double min_f = Integer.MAX_VALUE;
 			initial.out = false;
 			hash.clear();
 			st.clear();
 			st.push(initial);
-			hash.put(initial.to_string(), initial);
+			hash.put(initial.to_string, initial);
 			while(!st.empty()) {
 			    n = st.pop();
 				if(n.out) {
@@ -44,7 +45,7 @@ public class IDA_star {
 						}
 						System.out.println("********* end of iteration: *********\n");
 					}
-					hash.remove(n.to_string());
+					hash.remove(n.to_string);
 				}else{
 					n.out = true;
 					st.push(n);
@@ -54,19 +55,19 @@ public class IDA_star {
 							continue;
 						}
 						num_node_generated ++;
-						double f = g.distance + (Support.h(g, goal, num_empty_tiles));
+						double f = g.distance + (Support.h(g, goal,position, num_empty_tiles));
 						if(f > t) {
 							min_f = Math.min(min_f , f);
 							continue;
 						}
-						if(hash.containsKey(g.to_string()) && (hash.get(g.to_string()).out == true)) {
+						if(hash.containsKey(g.to_string) && (hash.get(g.to_string).out == true)) {
 							continue;
 						}
-						if(hash.containsKey(g.to_string()) && (hash.get(g.to_string()).out == false)) {
-							Node g_tag = hash.get(g.to_string()) ;
-							double f_tag = g_tag.distance + (Support.h(g_tag, goal, num_empty_tiles));
+						if(hash.containsKey(g.to_string) && (hash.get(g.to_string).out == false)) {
+							Node g_tag = hash.get(g.to_string) ;
+							double f_tag = g_tag.distance + (Support.h(g_tag, goal,position, num_empty_tiles));
 							if(f_tag > f) {
-								hash.remove(g_tag.to_string());
+								hash.remove(g_tag.to_string);
 								st.remove(g_tag);	
 							}else {
 								continue;
@@ -88,7 +89,7 @@ public class IDA_star {
 
 						}					
 						st.push(g);
-						hash.put(g.to_string(), g);	
+						hash.put(g.to_string, g);	
 						
 					}
 				}
@@ -98,5 +99,24 @@ public class IDA_star {
 		long end = System.currentTimeMillis() ;
 		time = (double)(end - start) / 1000;
 		return;
+	}
+	
+	public Hashtable<Integer,int[]> get_position(Node goal){
+		int rows = goal.state.length;
+		int colls = goal.state[0].length;
+		Hashtable<Integer,int[]> position = new Hashtable<>();
+		for(int i = 0 ; i < rows ; i++) {
+			for(int j = 0 ; j < colls ; j++) {
+				String str = goal.state[i][j];
+				if(str.equals("_")) {
+					continue;
+				}else{
+					int key = Integer.parseInt(str);
+					int[] pos = {i,j};
+					position.put(key, pos);				 
+				} 
+			}
+		}
+		return position;
 	}
 }

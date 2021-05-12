@@ -27,7 +27,7 @@ public class BFS {
 	public void run_bfs() {
 		long start = System.currentTimeMillis();
 		q.add(initial);
-		hash_open.put(initial.to_string(), initial);
+		hash_open.put(initial.to_string, initial);
 		int iteration = 0;
  		while(!q.isEmpty()) {
 			if(with_open) {
@@ -39,18 +39,15 @@ public class BFS {
 				System.out.println("********* end of iteration: *********\n");
 			}
 			Node n = q.poll();
-			hash_open.remove(n.to_string());
-			hash_close.put(n.to_string(), n);
+			hash_open.remove(n.to_string);
+			hash_close.put(n.to_string, n);
 			for(int i = 1 ; i  <=  12 ; i++) {			
 				Node g = Support.make_operators(n,i);
 				if(g == null) {
 					continue;
 				}
-//				if(g.parent.parent!=null) {
-//				System.out.println("******\n" +g.parent.parent.to_string()+ "@@@\n" + g.parent.to_string()  + "@@@\n" + g.to_string()+ "******\n");
-//				}
 				num_node_generated ++;
-				if(!(hash_open.containsKey(g.to_string())) && !(hash_close.containsKey(g.to_string()))) {
+				if(!(hash_open.containsKey(g.to_string)) && !(hash_close.containsKey(g.to_string))) {
 					if(g.equals(goal)) {
 						while(g.parent != null) {
 							path.add(0,g.direction);
@@ -62,7 +59,7 @@ public class BFS {
 						return ;
 					}
 					q.add(g);
-					hash_open.put(g.to_string(), g);
+					hash_open.put(g.to_string, g);
 				}
 			}
 		}

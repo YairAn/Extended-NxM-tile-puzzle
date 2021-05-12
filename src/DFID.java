@@ -51,7 +51,7 @@ public class DFID {
 		} else if(depth == 0){
 			return "cutoff";
 		} else {
-			H.put(node.to_string(),node);
+			H.put(node.to_string,node);
 			is_cutoff = false;
 			for(int i = 1 ; i  <=  12 ; i++) {
 				Node g = Support.make_operators(node,i);
@@ -59,7 +59,7 @@ public class DFID {
 					continue;
 				}
 				num_node_generated++;
-				if(H.containsKey(g.to_string())) {
+				if(H.containsKey(g.to_string)) {
 					continue;
 				}
 				String result = limited_dfs(g, goal, (depth-1) , H);     //Recursion call
@@ -77,7 +77,7 @@ public class DFID {
 			}
 			System.out.println("********* end of iteration: *********\n");
 		    }
-		    H.remove(node.to_string());
+		    H.remove(node.to_string);
 			if(is_cutoff == true) {
 				return "cutoff";
 			}else {
@@ -87,11 +87,3 @@ public class DFID {
 	}		
 }
 
-//if(with_open) {
-	//System.out.println("********* open list in iteration *********");
-	//Iterator<String> itr = H.keySet().iterator();		 
-	//while(itr.hasNext()){
-	//	System.out.println(itr.next());
-	//}
-	//System.out.println("********* end of iteration: *********\n");
-//}
