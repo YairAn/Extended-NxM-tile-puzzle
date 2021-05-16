@@ -203,7 +203,6 @@ public class Support {
 				if(!st.state[i][j].equals(goal.state[i][j])) {
 					int goal_i = position.get(val)[0];
 					int goal_j = position.get(val)[1];
-					//double d = (Math.abs(i - goal_i)*3.5) + (Math.abs(j - goal_j)*3);
 					double d = (Math.abs(i - goal_i)) + (Math.abs(j - goal_j));
 					dist+=d;
 				}
@@ -212,7 +211,7 @@ public class Support {
 		double factor = 5;      
 		if(t == 2) factor = 3; //two tiles - the lower bound of each tile to move one step
 		return (dist*factor);
-		//return dist;
+		
 		
 	}
 
